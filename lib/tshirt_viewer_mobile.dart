@@ -1,7 +1,10 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:webview_flutter_android/webview_flutter_android.dart';
 
 class TshirtViewerMobile extends StatefulWidget {
   const TshirtViewerMobile({super.key});
@@ -22,6 +25,28 @@ class _TshirtViewerMobileState extends State<TshirtViewerMobile> {
     _startLocalServer();
   }
 
+  Future<void> _pickImage() async {
+    try {
+      final ImagePicker picker = ImagePicker();
+      final XFile? file = await picker.pickImage(
+        source: ImageSource.gallery,
+        maxWidth: 2048,
+        maxHeight: 2048,
+        imageQuality: 95,
+      );
+      if (file != null) {
+        final Uint8List bytes = await file.readAsBytes();
+        final String base64Data = base64Encode(bytes);
+        final String mime = file.mimeType ?? 'image/png';
+        final String dataUrl = 'data:$mime;base64,$base64Data';
+        final String safeName = file.name.replaceAll("'", "\\'");
+        await _controller?.runJavaScript("window.loadCustomImageFromUrl('$dataUrl', '$safeName');");
+      }
+    } catch (e) {
+      debugPrint('Error picking image: $e');
+    }
+  }
+
   Future<void> _startLocalServer() async {
     try {
       _server = await HttpServer.bind(InternetAddress.loopbackIPv4, 0);
@@ -30,9 +55,38 @@ class _TshirtViewerMobileState extends State<TshirtViewerMobile> {
       final controller = WebViewController()
         ..setJavaScriptMode(JavaScriptMode.unrestricted)
         ..setBackgroundColor(const Color(0xFF0E1015))
+        ..addJavaScriptChannel(
+          'FlutterBridge',
+          onMessageReceived: (JavaScriptMessage message) {
+            if (message.message == 'PICK_IMAGE') {
+              _pickImage();
+            }
+          },
+        )
         ..loadRequest(
           Uri.parse('http://127.0.0.1:${_server!.port}/tshirt_customizer.html'),
         );
+
+      if (Platform.isAndroid && controller.platform is AndroidWebViewController) {
+        final androidController = controller.platform as AndroidWebViewController;
+        androidController.setOnShowFileSelector((FileSelectorParams params) async {
+          try {
+            final ImagePicker picker = ImagePicker();
+            final XFile? file = await picker.pickImage(
+              source: ImageSource.gallery,
+              maxWidth: 2048,
+              maxHeight: 2048,
+              imageQuality: 95,
+            );
+            if (file != null) {
+              return [Uri.file(file.path).toString()];
+            }
+          } catch (e) {
+            debugPrint('setOnShowFileSelector error: $e');
+          }
+          return <String>[];
+        });
+      }
 
       if (mounted) {
         setState(() {

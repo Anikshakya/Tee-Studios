@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>3D T-Shirt Mockup Studio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Cinzel:wght@700&family=Inter:wght@400;500;600;700&family=Montserrat:wght@700;900&family=Oswald:wght@600&family=Pacifico&family=Permanent+Marker&family=Playfair+Display:ital,wght@0,700;1,700&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Cinzel:wght@700&family=Inter:wght@400;500;600;700&family=Montserrat:wght@700;900&family=Oswald:wght@600&family=Pacifico&family=Permanent+Marker&family=Playfair+Display:ital,wght@0,700;1,700&family=Space+Mono:wght@700&display=swap"
+    rel="stylesheet">
   <style>
     :root {
       --bg-primary: #0e1015;
@@ -31,7 +34,8 @@
       -webkit-user-select: none;
     }
 
-    body, html {
+    body,
+    html {
       width: 100%;
       height: 100%;
       overflow: hidden;
@@ -62,7 +66,6 @@
       display: block;
       outline: none;
       cursor: grab;
-      touch-action: none;
     }
 
     #canvas3d.cursor-drag {
@@ -179,8 +182,15 @@
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-5px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(-5px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     /* Camera Navigation Bar */
@@ -323,6 +333,7 @@
     .panel-content::-webkit-scrollbar {
       width: 5px;
     }
+
     .panel-content::-webkit-scrollbar-thumb {
       background: rgba(255, 255, 255, 0.15);
       border-radius: 4px;
@@ -390,7 +401,7 @@
     }
 
     .custom-color-row input[type="color"] {
-      -webkit-appearance: none;
+      /* -webkit-appearance: none; */
       border: none;
       width: 32px;
       height: 32px;
@@ -474,7 +485,7 @@
     .custom-range {
       width: 100%;
       height: 5px;
-      -webkit-appearance: none;
+      /* -webkit-appearance: none; */
       background: var(--bg-card);
       border-radius: 3px;
       outline: none;
@@ -555,7 +566,8 @@
       gap: 8px;
     }
 
-    .upload-zone:hover, .upload-zone.dragover {
+    .upload-zone:hover,
+    .upload-zone.dragover {
       border-color: var(--accent);
       background: rgba(99, 102, 241, 0.08);
     }
@@ -620,6 +632,7 @@
       border-radius: 6px;
       cursor: pointer;
     }
+
     .btn-remove-item:hover {
       background: rgba(239, 68, 68, 0.25);
     }
@@ -694,13 +707,17 @@
     }
 
     @keyframes spin {
-      to { transform: rotate(360deg); }
+      to {
+        transform: rotate(360deg);
+      }
     }
 
-    #file-input { display: none; }
+    #file-input {
+      display: none;
+    }
 
-    /* Mobile Responsive Layout (< 768px) */
-    @media (max-width: 768px) {
+    /* Responsive Mobile Layout (<= 900px) */
+    @media (max-width: 900px) {
       #app-container {
         flex-direction: column;
       }
@@ -719,6 +736,34 @@
         box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.4);
       }
 
+      .mobile-sheet-handle-bar {
+        display: flex;
+      }
+
+      #app-container.hud-hidden #sidebar {
+        transform: translateY(100%);
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 52vh;
+        pointer-events: none;
+        opacity: 0;
+      }
+
+      #app-container.hud-hidden #viewport-container {
+        height: 100vh !important;
+        min-height: 100vh !important;
+        flex: 1 1 100% !important;
+      }
+
+      .floating-hud-trigger {
+        bottom: 18px;
+        right: 18px;
+        padding: 9px 15px;
+        font-size: 12px;
+      }
+
       .top-bar {
         top: 10px;
         left: 10px;
@@ -728,11 +773,13 @@
         padding: 6px 10px;
         gap: 8px;
       }
+
       .logo-badge .icon {
         width: 22px;
         height: 22px;
         font-size: 11px;
       }
+
       .logo-badge h1 {
         font-size: 12px;
       }
@@ -743,8 +790,9 @@
         padding: 3px;
         gap: 4px;
       }
+
       .mode-btn {
-        padding: 5px 10px;
+        padding: 5px 9px;
         font-size: 11px;
       }
 
@@ -770,11 +818,13 @@
       }
 
       .sidebar-header {
-        padding: 12px 16px;
+        padding: 10px 14px;
       }
+
       .tabs-nav {
         padding: 4px 12px 0;
       }
+
       .tab-btn {
         padding: 8px 4px;
         font-size: 12px;
@@ -801,1360 +851,1452 @@
     }
   </style>
 </head>
+
 <body>
 
-<div id="app-container">
-  <!-- 3D Viewport -->
-  <div id="viewport-container">
-    <canvas id="canvas3d"></canvas>
+  <div id="app-container">
+    <!-- 3D Viewport -->
+    <div id="viewport-container">
+      <canvas id="canvas3d"></canvas>
 
-    <!-- Top Left Title Badge -->
-    <div class="viewport-overlay top-bar">
-      <div class="logo-badge">
-        <div class="icon">3D</div>
-        <h1>T-Shirt Mockup Studio</h1>
-      </div>
-    </div>
-
-    <!-- Interaction Mode Switcher on Viewport -->
-    <div class="viewport-overlay viewport-mode-bar">
-      <button class="mode-btn active" id="mode-orbit">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="12" cy="12" r="10"></circle>
-          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
-        </svg>
-        Rotate 360°
-      </button>
-      <button class="mode-btn" id="mode-drag">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <polyline points="5 9 2 12 5 15"></polyline>
-          <polyline points="9 5 12 2 15 5"></polyline>
-          <polyline points="15 19 12 22 9 19"></polyline>
-          <polyline points="19 9 22 12 19 15"></polyline>
-          <line x1="2" y1="12" x2="22" y2="12"></line>
-          <line x1="12" y1="2" x2="12" y2="22"></line>
-        </svg>
-        Drag to Move
-      </button>
-    </div>
-
-    <!-- Floating Drag Hint Banner -->
-    <div class="drag-hint-banner" id="drag-hint-banner">
-      ✋ Click and drag across the shirt or sleeves to reposition freely!
-    </div>
-
-    <!-- Bottom Camera Navigation Bar (Meshy style) -->
-    <div class="viewport-overlay bottom-camera-bar">
-      <button class="cam-btn active" id="btn-cam-front">Front</button>
-      <button class="cam-btn" id="btn-cam-back">Back</button>
-      <button class="cam-btn" id="btn-cam-left-sleeve">Left Sleeve</button>
-      <button class="cam-btn" id="btn-cam-right-sleeve">Right Sleeve</button>
-      <button class="cam-btn" id="btn-cam-reset">Reset</button>
-      <button class="cam-btn" id="btn-auto-rotate">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path>
-        </svg>
-        Rotate
-      </button>
-    </div>
-
-    <!-- Loading Screen -->
-    <div id="loading-overlay">
-      <div class="spinner"></div>
-      <p style="font-size: 14px; font-weight: 500; color: #9ca3af;">Loading 3D T-Shirt Model...</p>
-    </div>
-  </div>
-
-  <!-- Sidebar Customizer -->
-  <div id="sidebar">
-    <div class="sidebar-header">
-      <h2>Customizer</h2>
-      <button class="btn-reset-all" id="btn-reset-all" title="Revert all changes back to initial state">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <polyline points="1 4 1 10 7 10"></polyline>
-          <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
-        </svg>
-        Revert Back
-      </button>
-    </div>
-
-    <!-- Navigation Tabs -->
-    <div class="tabs-nav">
-      <button class="tab-btn active" data-tab="tab-color">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="12" cy="12" r="10"></circle>
-          <path d="M12 2a7 7 0 0 1 7 7c0 2.5-1.5 4.5-4 5.5V17a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2v-2.5C6.5 13.5 5 11.5 5 9a7 7 0 0 1 7-7z"></path>
-        </svg>
-        Color
-      </button>
-      <button class="tab-btn" data-tab="tab-text">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <polyline points="4 7 4 4 20 4 20 7"></polyline>
-          <line x1="9" y1="20" x2="15" y2="20"></line>
-          <line x1="12" y1="4" x2="12" y2="20"></line>
-        </svg>
-        Text
-      </button>
-      <button class="tab-btn" data-tab="tab-image">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-          <circle cx="8.5" cy="8.5" r="1.5"></circle>
-          <polyline points="21 15 16 10 5 21"></polyline>
-        </svg>
-        Image
-      </button>
-    </div>
-
-    <!-- Panel Content -->
-    <div class="panel-content">
-      <!-- 1. COLOR TAB -->
-      <div class="tab-pane active" id="tab-color">
-        <div class="section-title">Base Shirt Color</div>
-        <div class="color-grid" id="color-swatches"></div>
-
-        <div class="section-title" style="margin-top: 8px;">Custom Hex Color</div>
-        <div class="custom-color-row">
-          <input type="color" id="custom-color-picker" value="#ffffff">
-          <input type="text" id="custom-color-hex" value="#FFFFFF" maxlength="7">
-        </div>
-
-        <div class="section-title" style="margin-top: 14px;">Studio Lighting Mood</div>
-        <div class="placement-grid">
-          <button class="place-btn active" id="light-studio"><span class="dot"></span>Soft Studio</button>
-          <button class="place-btn" id="light-warm"><span class="dot"></span>Warm Sunlight</button>
-          <button class="place-btn" id="light-cool"><span class="dot"></span>Cyber Neon</button>
-          <button class="place-btn" id="light-dramatic"><span class="dot"></span>Dramatic Rim</button>
+      <!-- Top Left Title Badge -->
+      <div class="viewport-overlay top-bar">
+        <div class="logo-badge">
+          <div class="icon">3D</div>
+          <h1>T-Shirt Mockup Studio</h1>
         </div>
       </div>
 
-      <!-- 2. TEXT TAB -->
-      <div class="tab-pane" id="tab-text">
-        <div class="section-title">
-          <span>Text Content</span>
-          <button class="btn-remove-item" id="btn-clear-text">Clear Text</button>
-        </div>
-        <input type="text" class="text-input-field" id="text-input" placeholder="Type text..." value="BROOKLYN">
-
-        <div class="section-title" style="margin-top: 6px;">Font Family</div>
-        <select class="select-field" id="font-family-select">
-          <option value="'Bebas Neue', sans-serif">Bebas Neue (Athletic Bold)</option>
-          <option value="'Montserrat', sans-serif">Montserrat (Modern Heavy)</option>
-          <option value="'Oswald', sans-serif">Oswald (Industrial Condensed)</option>
-          <option value="'Anton', sans-serif">Anton (Impact Statement)</option>
-          <option value="'Permanent Marker', cursive">Permanent Marker (Street / Graffiti)</option>
-          <option value="'Pacifico', cursive">Pacifico (Retro Brush Script)</option>
-          <option value="'Playfair Display', serif">Playfair (Classic Luxury Serif)</option>
-          <option value="'Cinzel', serif">Cinzel (Roman Architectural)</option>
-          <option value="'Space Mono', monospace">Space Mono (Tech / Code)</option>
-          <option value="'Inter', sans-serif">Inter (Clean Neutral)</option>
-        </select>
-
-        <div class="slider-row">
-          <div class="slider-header">
-            <span>Font Size</span>
-            <span class="val" id="text-size-val">58px</span>
-          </div>
-          <input type="range" class="custom-range" id="text-size-range" min="16" max="140" value="58">
-        </div>
-
-        <div class="slider-row">
-          <div class="slider-header">
-            <span>Curved / Arc Text</span>
-            <span class="val" id="text-arc-val">0%</span>
-          </div>
-          <input type="range" class="custom-range" id="text-arc-range" min="-100" max="100" value="0">
-        </div>
-
-        <div class="slider-row">
-          <div class="slider-header">
-            <span>Letter Spacing</span>
-            <span class="val" id="text-spacing-val">2px</span>
-          </div>
-          <input type="range" class="custom-range" id="text-spacing-range" min="-5" max="35" value="2">
-        </div>
-
-        <div class="section-title" style="margin-top: 6px;">Text Color</div>
-        <div class="color-grid" id="text-color-swatches"></div>
-        <div class="custom-color-row" style="margin-top: 6px;">
-          <input type="color" id="text-custom-color" value="#111111">
-          <input type="text" id="text-custom-hex" value="#111111" maxlength="7">
-        </div>
-
-        <div class="section-title" style="margin-top: 10px;">
-          <span>Placement Preset</span>
-          <span style="font-size: 10px; color: var(--accent); font-weight: normal;">(Or drag directly on 3D shirt)</span>
-        </div>
-        <div class="placement-grid" id="text-placement-grid">
-          <button class="place-btn active" data-text-pos="front-chest"><span class="dot"></span>Center Chest</button>
-          <button class="place-btn" data-text-pos="front-pocket"><span class="dot"></span>Left Pocket</button>
-          <button class="place-btn" data-text-pos="front-right"><span class="dot"></span>Right Chest</button>
-          <button class="place-btn" data-text-pos="left-sleeve"><span class="dot"></span>Left Sleeve</button>
-          <button class="place-btn" data-text-pos="right-sleeve"><span class="dot"></span>Right Sleeve</button>
-          <button class="place-btn" data-text-pos="back-upper"><span class="dot"></span>Upper Back</button>
-          <button class="place-btn" data-text-pos="back-center"><span class="dot"></span>Center Back</button>
-          <button class="place-btn" data-text-pos="back-neck"><span class="dot"></span>Back Collar</button>
-        </div>
-
-        <div class="slider-row" style="margin-top: 6px;">
-          <div class="slider-header">
-            <span>Text Rotation</span>
-            <span class="val" id="text-rot-val">0°</span>
-          </div>
-          <input type="range" class="custom-range" id="text-rot-range" min="-180" max="180" value="0">
-        </div>
+      <!-- Interaction Mode Switcher on Viewport -->
+      <div class="viewport-overlay viewport-mode-bar">
+        <button class="mode-btn active" id="mode-orbit">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+          </svg>
+          Rotate 360°
+        </button>
+        <button class="mode-btn" id="mode-drag">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="5 9 2 12 5 15"></polyline>
+            <polyline points="9 5 12 2 15 5"></polyline>
+            <polyline points="15 19 12 22 9 19"></polyline>
+            <polyline points="19 9 22 12 19 15"></polyline>
+            <line x1="2" y1="12" x2="22" y2="12"></line>
+            <line x1="12" y1="2" x2="12" y2="22"></line>
+          </svg>
+          Drag to Move
+        </button>
+        <button class="mode-btn" id="btn-toggle-hud" title="Hide or show customization controls">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+            <circle cx="12" cy="12" r="3"></circle>
+          </svg>
+          <span id="toggle-hud-label">Hide Controls</span>
+        </button>
       </div>
 
-      <!-- 3. IMAGE TAB -->
-      <div class="tab-pane" id="tab-image">
-        <div class="section-title">
-          <span>Upload Artwork</span>
-          <button class="btn-remove-item" id="btn-clear-image">Clear Image</button>
-        </div>
-
-        <div class="active-image-status" id="image-status-bar">
-          <span id="image-status-text">No artwork selected</span>
-        </div>
-
-        <div class="upload-zone" id="upload-zone">
-          <div class="upload-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-              <polyline points="17 8 12 3 7 8"></polyline>
-              <line x1="12" y1="3" x2="12" y2="15"></line>
-            </svg>
-          </div>
-          <p><span>Click to upload</span> or drag & drop</p>
-          <p style="font-size: 11px; color: var(--text-dim);">PNG, JPG, SVG or WebP with transparency</p>
-        </div>
-        <input type="file" id="file-input" accept="image/*">
-
-        <div class="section-title" style="margin-top: 8px;">Sample Artwork Library</div>
-        <div class="preset-art-grid" id="sample-art-grid"></div>
-
-        <div class="slider-row" style="margin-top: 6px;">
-          <div class="slider-header">
-            <span>Image Size / Scale</span>
-            <span class="val" id="image-scale-val">100%</span>
-          </div>
-          <input type="range" class="custom-range" id="image-scale-range" min="20" max="250" value="100">
-        </div>
-
-        <div class="slider-row">
-          <div class="slider-header">
-            <span>Image Rotation</span>
-            <span class="val" id="image-rot-val">0°</span>
-          </div>
-          <input type="range" class="custom-range" id="image-rot-range" min="-180" max="180" value="0">
-        </div>
-
-        <div class="section-title" style="margin-top: 10px;">
-          <span>Placement Preset</span>
-          <span style="font-size: 10px; color: var(--accent); font-weight: normal;">(Or drag directly on 3D shirt)</span>
-        </div>
-        <div class="placement-grid" id="image-placement-grid">
-          <button class="place-btn active" data-img-pos="front-chest"><span class="dot"></span>Center Chest</button>
-          <button class="place-btn" data-img-pos="front-pocket"><span class="dot"></span>Left Pocket</button>
-          <button class="place-btn" data-img-pos="front-right"><span class="dot"></span>Right Chest</button>
-          <button class="place-btn" data-img-pos="left-sleeve"><span class="dot"></span>Left Sleeve</button>
-          <button class="place-btn" data-img-pos="right-sleeve"><span class="dot"></span>Right Sleeve</button>
-          <button class="place-btn" data-img-pos="back-upper"><span class="dot"></span>Upper Back</button>
-          <button class="place-btn" data-img-pos="back-center"><span class="dot"></span>Center Back</button>
-          <button class="place-btn" data-img-pos="back-neck"><span class="dot"></span>Back Collar</button>
-        </div>
+      <!-- Floating Drag Hint Banner -->
+      <div class="drag-hint-banner" id="drag-hint-banner">
+        ✋ Click and drag across the shirt or sleeves to reposition freely!
       </div>
-    </div>
 
-    <!-- Export Action -->
-    <div class="sidebar-footer">
-      <button class="btn-export" id="btn-download-mockup">
+      <!-- Bottom Camera Navigation Bar (Meshy style) -->
+      <div class="viewport-overlay bottom-camera-bar">
+        <button class="cam-btn active" id="btn-cam-front">Front</button>
+        <button class="cam-btn" id="btn-cam-back">Back</button>
+        <button class="cam-btn" id="btn-cam-left-sleeve">Left Sleeve</button>
+        <button class="cam-btn" id="btn-cam-right-sleeve">Right Sleeve</button>
+        <button class="cam-btn" id="btn-cam-reset">Reset</button>
+        <button class="cam-btn" id="btn-auto-rotate">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path>
+          </svg>
+          Rotate
+        </button>
+      </div>
+
+      <!-- Floating button to restore HUD when collapsed -->
+      <button class="floating-hud-trigger" id="btn-floating-show-hud" title="Show Customization Controls">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-          <polyline points="7 10 12 15 17 10"></polyline>
-          <line x1="12" y1="15" x2="12" y2="3"></line>
+          <path d="M12 20h9"></path>
+          <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
         </svg>
-        Download Mockup PNG
+        Show Controls
       </button>
+
+      <!-- Loading Screen -->
+      <div id="loading-overlay">
+        <div class="spinner"></div>
+        <p style="font-size: 14px; font-weight: 500; color: #9ca3af;">Loading 3D T-Shirt Model...</p>
+      </div>
+    </div>
+
+    <!-- Sidebar Customizer -->
+    <div id="sidebar">
+      <div class="mobile-sheet-handle-bar" id="mobile-sheet-handle" title="Tap to hide controls">
+        <div class="sheet-handle-pill"></div>
+      </div>
+      <div class="sidebar-header">
+        <h2>Customizer</h2>
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <button class="btn-hide-hud-header" id="btn-sidebar-collapse" title="Hide controls for full 3D view">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            Hide View
+          </button>
+          <button class="btn-reset-all" id="btn-reset-all" title="Revert all changes back to initial state">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="1 4 1 10 7 10"></polyline>
+              <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+            </svg>
+            Revert Back
+          </button>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <div class="tabs-nav">
+        <button class="tab-btn active" data-tab="tab-color">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path
+              d="M12 2a7 7 0 0 1 7 7c0 2.5-1.5 4.5-4 5.5V17a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2v-2.5C6.5 13.5 5 11.5 5 9a7 7 0 0 1 7-7z">
+            </path>
+          </svg>
+          Color
+        </button>
+        <button class="tab-btn" data-tab="tab-text">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4 7 4 4 20 4 20 7"></polyline>
+            <line x1="9" y1="20" x2="15" y2="20"></line>
+            <line x1="12" y1="4" x2="12" y2="20"></line>
+          </svg>
+          Text
+        </button>
+        <button class="tab-btn" data-tab="tab-image">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+            <circle cx="8.5" cy="8.5" r="1.5"></circle>
+            <polyline points="21 15 16 10 5 21"></polyline>
+          </svg>
+          Image
+        </button>
+      </div>
+
+      <!-- Panel Content -->
+      <div class="panel-content">
+        <!-- 1. COLOR TAB -->
+        <div class="tab-pane active" id="tab-color">
+          <div class="section-title">Base Shirt Color</div>
+          <div class="color-grid" id="color-swatches"></div>
+
+          <div class="section-title" style="margin-top: 8px;">Custom Hex Color</div>
+          <div class="custom-color-row">
+            <input type="color" id="custom-color-picker" value="#ffffff">
+            <input type="text" id="custom-color-hex" value="#FFFFFF" maxlength="7">
+          </div>
+
+          <div class="section-title" style="margin-top: 14px;">Studio Lighting Mood</div>
+          <div class="placement-grid">
+            <button class="place-btn active" id="light-studio"><span class="dot"></span>Soft Studio</button>
+            <button class="place-btn" id="light-warm"><span class="dot"></span>Warm Sunlight</button>
+            <button class="place-btn" id="light-cool"><span class="dot"></span>Cyber Neon</button>
+            <button class="place-btn" id="light-dramatic"><span class="dot"></span>Dramatic Rim</button>
+          </div>
+        </div>
+
+        <!-- 2. TEXT TAB -->
+        <div class="tab-pane" id="tab-text">
+          <div class="section-title">
+            <span>Text Content</span>
+            <button class="btn-remove-item" id="btn-clear-text">Clear Text</button>
+          </div>
+          <input type="text" class="text-input-field" id="text-input" placeholder="Type text..." value="BROOKLYN">
+
+          <div class="section-title" style="margin-top: 6px;">Font Family</div>
+          <select class="select-field" id="font-family-select">
+            <option value="'Bebas Neue', sans-serif">Bebas Neue (Athletic Bold)</option>
+            <option value="'Montserrat', sans-serif">Montserrat (Modern Heavy)</option>
+            <option value="'Oswald', sans-serif">Oswald (Industrial Condensed)</option>
+            <option value="'Anton', sans-serif">Anton (Impact Statement)</option>
+            <option value="'Permanent Marker', cursive">Permanent Marker (Street / Graffiti)</option>
+            <option value="'Pacifico', cursive">Pacifico (Retro Brush Script)</option>
+            <option value="'Playfair Display', serif">Playfair (Classic Luxury Serif)</option>
+            <option value="'Cinzel', serif">Cinzel (Roman Architectural)</option>
+            <option value="'Space Mono', monospace">Space Mono (Tech / Code)</option>
+            <option value="'Inter', sans-serif">Inter (Clean Neutral)</option>
+          </select>
+
+          <div class="slider-row">
+            <div class="slider-header">
+              <span>Font Size</span>
+              <span class="val" id="text-size-val">58px</span>
+            </div>
+            <input type="range" class="custom-range" id="text-size-range" min="16" max="140" value="58">
+          </div>
+
+          <div class="slider-row">
+            <div class="slider-header">
+              <span>Curved / Arc Text</span>
+              <span class="val" id="text-arc-val">0%</span>
+            </div>
+            <input type="range" class="custom-range" id="text-arc-range" min="-100" max="100" value="0">
+          </div>
+
+          <div class="slider-row">
+            <div class="slider-header">
+              <span>Letter Spacing</span>
+              <span class="val" id="text-spacing-val">2px</span>
+            </div>
+            <input type="range" class="custom-range" id="text-spacing-range" min="-5" max="35" value="2">
+          </div>
+
+          <div class="section-title" style="margin-top: 6px;">Text Color</div>
+          <div class="color-grid" id="text-color-swatches"></div>
+          <div class="custom-color-row" style="margin-top: 6px;">
+            <input type="color" id="text-custom-color" value="#111111">
+            <input type="text" id="text-custom-hex" value="#111111" maxlength="7">
+          </div>
+
+          <div class="section-title" style="margin-top: 10px;">
+            <span>Placement Preset</span>
+            <span style="font-size: 10px; color: var(--accent); font-weight: normal;">(Or drag directly on 3D
+              shirt)</span>
+          </div>
+          <div class="placement-grid" id="text-placement-grid">
+            <button class="place-btn active" data-text-pos="front-chest"><span class="dot"></span>Center Chest</button>
+            <button class="place-btn" data-text-pos="front-pocket"><span class="dot"></span>Left Pocket</button>
+            <button class="place-btn" data-text-pos="front-right"><span class="dot"></span>Right Chest</button>
+            <button class="place-btn" data-text-pos="left-sleeve"><span class="dot"></span>Left Sleeve</button>
+            <button class="place-btn" data-text-pos="right-sleeve"><span class="dot"></span>Right Sleeve</button>
+            <button class="place-btn" data-text-pos="back-upper"><span class="dot"></span>Upper Back</button>
+            <button class="place-btn" data-text-pos="back-center"><span class="dot"></span>Center Back</button>
+            <button class="place-btn" data-text-pos="back-neck"><span class="dot"></span>Back Collar</button>
+          </div>
+
+          <div class="slider-row" style="margin-top: 6px;">
+            <div class="slider-header">
+              <span>Text Rotation</span>
+              <span class="val" id="text-rot-val">0°</span>
+            </div>
+            <input type="range" class="custom-range" id="text-rot-range" min="-180" max="180" value="0">
+          </div>
+        </div>
+
+        <!-- 3. IMAGE TAB -->
+        <div class="tab-pane" id="tab-image">
+          <div class="section-title">
+            <span>Upload Artwork</span>
+            <button class="btn-remove-item" id="btn-clear-image">Clear Image</button>
+          </div>
+
+          <div class="active-image-status" id="image-status-bar">
+            <span id="image-status-text">No artwork selected</span>
+          </div>
+
+          <div class="upload-zone" id="upload-zone">
+            <div class="upload-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="17 8 12 3 7 8"></polyline>
+                <line x1="12" y1="3" x2="12" y2="15"></line>
+              </svg>
+            </div>
+            <p><span>Click to upload</span> or drag & drop</p>
+            <p style="font-size: 11px; color: var(--text-dim);">PNG, JPG, SVG or WebP with transparency</p>
+          </div>
+          <input type="file" id="file-input" accept="image/*">
+
+          <div class="section-title" style="margin-top: 8px;">Sample Artwork Library</div>
+          <div class="preset-art-grid" id="sample-art-grid"></div>
+
+          <div class="slider-row" style="margin-top: 6px;">
+            <div class="slider-header">
+              <span>Image Size / Scale</span>
+              <span class="val" id="image-scale-val">100%</span>
+            </div>
+            <input type="range" class="custom-range" id="image-scale-range" min="20" max="250" value="100">
+          </div>
+
+          <div class="slider-row">
+            <div class="slider-header">
+              <span>Image Rotation</span>
+              <span class="val" id="image-rot-val">0°</span>
+            </div>
+            <input type="range" class="custom-range" id="image-rot-range" min="-180" max="180" value="0">
+          </div>
+
+          <div class="section-title" style="margin-top: 10px;">
+            <span>Placement Preset</span>
+            <span style="font-size: 10px; color: var(--accent); font-weight: normal;">(Or drag directly on 3D
+              shirt)</span>
+          </div>
+          <div class="placement-grid" id="image-placement-grid">
+            <button class="place-btn active" data-img-pos="front-chest"><span class="dot"></span>Center Chest</button>
+            <button class="place-btn" data-img-pos="front-pocket"><span class="dot"></span>Left Pocket</button>
+            <button class="place-btn" data-img-pos="front-right"><span class="dot"></span>Right Chest</button>
+            <button class="place-btn" data-img-pos="left-sleeve"><span class="dot"></span>Left Sleeve</button>
+            <button class="place-btn" data-img-pos="right-sleeve"><span class="dot"></span>Right Sleeve</button>
+            <button class="place-btn" data-img-pos="back-upper"><span class="dot"></span>Upper Back</button>
+            <button class="place-btn" data-img-pos="back-center"><span class="dot"></span>Center Back</button>
+            <button class="place-btn" data-img-pos="back-neck"><span class="dot"></span>Back Collar</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Export Action -->
+      <div class="sidebar-footer">
+        <button class="btn-export" id="btn-download-mockup">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          Download Mockup PNG
+        </button>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- Three.js Libraries -->
-<script src="js/three.min.js"></script>
-<script src="js/OrbitControls.js"></script>
-<script src="js/GLTFLoader.js"></script>
-<script src="js/DecalGeometry.js"></script>
+  <!-- Three.js Libraries -->
+  <script src="js/three.min.js"></script>
+  <script src="js/OrbitControls.js"></script>
+  <script src="js/GLTFLoader.js"></script>
+  <script src="js/DecalGeometry.js"></script>
 
-<script>
-  // --- APPLICATION STATE ---
-  const state = {
-    activeTab: 'tab-color', // tab-color, tab-text, tab-image
-    interactionMode: 'orbit', // 'orbit' or 'drag'
+  <script>
+    // --- APPLICATION STATE ---
+    const state = {
+      activeTab: 'tab-color', // tab-color, tab-text, tab-image
+      interactionMode: 'orbit', // 'orbit' or 'drag'
 
-    shirtColor: '#FFFFFF',
-    
-    // TEXT CONFIG
-    text: 'BROOKLYN',
-    fontFamily: "'Bebas Neue', sans-serif",
-    fontSize: 58,
-    textColor: '#111111',
-    textArc: 0,
-    textSpacing: 2,
-    textRotation: 0,
-    textPositionKey: 'front-chest',
-    textPos: new THREE.Vector3(0.0, 0.12, 0.1585),
-    textNorm: new THREE.Vector3(0.003, 0.148, 0.989),
+      shirtColor: '#FFFFFF',
 
-    // IMAGE CONFIG: DEFAULT FALSE (No artwork selected by default)
-    hasImage: false,
-    imageElement: null,
-    imageScale: 1.0,
-    imageRotation: 0,
-    imagePositionKey: 'front-chest',
-    imagePos: new THREE.Vector3(0.0, 0.12, 0.1585),
-    imageNorm: new THREE.Vector3(0.003, 0.148, 0.989),
+      // TEXT CONFIG
+      text: 'BROOKLYN',
+      fontFamily: "'Bebas Neue', sans-serif",
+      fontSize: 58,
+      textColor: '#111111',
+      textArc: 0,
+      textSpacing: 2,
+      textRotation: 0,
+      textPositionKey: 'front-chest',
+      textPos: new THREE.Vector3(0.0, 0.12, 0.1585),
+      textNorm: new THREE.Vector3(0.003, 0.148, 0.989),
 
-    autoRotate: false
-  };
+      // IMAGE CONFIG: DEFAULT FALSE (No artwork selected by default)
+      hasImage: false,
+      imageElement: null,
+      imageScale: 1.0,
+      imageRotation: 0,
+      imagePositionKey: 'front-chest',
+      imagePos: new THREE.Vector3(0.0, 0.12, 0.1585),
+      imageNorm: new THREE.Vector3(0.003, 0.148, 0.989),
 
-  // --- PRESET LANDMARKS ON SHIRT SURFACE ---
-  const PRESET_LANDMARKS = {
-    'front-chest': {
-      pos: new THREE.Vector3(0.0, 0.12, 0.1585),
-      norm: new THREE.Vector3(0.003, 0.148, 0.989),
-      camView: 'front'
-    },
-    'front-pocket': {
-      pos: new THREE.Vector3(0.11, 0.14, 0.1633),
-      norm: new THREE.Vector3(0.116, 0.165, 0.979),
-      camView: 'front'
-    },
-    'front-right': {
-      pos: new THREE.Vector3(-0.11, 0.14, 0.1636),
-      norm: new THREE.Vector3(-0.032, 0.136, 0.990),
-      camView: 'front'
-    },
-    'left-sleeve': {
-      pos: new THREE.Vector3(0.4281, 0.10, -0.01),
-      norm: new THREE.Vector3(0.911, 0.353, 0.214),
-      camView: 'left-sleeve'
-    },
-    'right-sleeve': {
-      pos: new THREE.Vector3(-0.4279, 0.10, -0.01),
-      norm: new THREE.Vector3(-0.935, 0.351, -0.037),
-      camView: 'right-sleeve'
-    },
-    'back-upper': {
-      pos: new THREE.Vector3(0.0, 0.16, -0.1787),
-      norm: new THREE.Vector3(-0.014, 0.042, -0.999),
-      camView: 'back'
-    },
-    'back-center': {
-      pos: new THREE.Vector3(0.0, 0.04, -0.181),
-      norm: new THREE.Vector3(0.052, -0.001, -0.999),
-      camView: 'back'
-    },
-    'back-neck': {
-      pos: new THREE.Vector3(0.0, 0.28, -0.1712),
-      norm: new THREE.Vector3(-0.064, 0.070, -0.995),
-      camView: 'back'
-    }
-  };
+      autoRotate: false
+    };
 
-  // --- THREE.JS SCENE SETUP ---
-  let scene, camera, renderer, controls;
-  let shirtMesh = null;
-  let raycaster, mouse;
-  let normalMapTexture = null;
-
-  // Decals
-  let decalMeshText = null;
-  let decalMeshImage = null;
-  let canvasText = null;
-  let canvasImage = null;
-  let decalTextureText = null;
-  let decalTextureImage = null;
-
-  // Interactive Drag-and-Drop
-  let isDraggingDecal = false;
-
-  // Lighting
-  let ambientLight, dirLight1, dirLight2, dirLight3;
-
-  function init3D() {
-    const container = document.getElementById('viewport-container');
-    const width = container.clientWidth;
-    const height = container.clientHeight;
-
-    scene = new THREE.Scene();
-
-    camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 100);
-    camera.position.set(0, 0.05, 1.85);
-
-    const canvas = document.getElementById('canvas3d');
-    renderer = new THREE.WebGLRenderer({
-      canvas: canvas,
-      antialias: true,
-      alpha: true,
-      preserveDrawingBuffer: true
-    });
-    renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.15;
-    renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-
-    controls = new THREE.OrbitControls(camera, renderer.domElement);
-    controls.enableDamping = true;
-    controls.dampingFactor = 0.06;
-    controls.minDistance = 0.6;
-    controls.maxDistance = 3.5;
-    controls.target.set(0, 0, 0);
-    controls.maxPolarAngle = Math.PI * 0.85;
-    controls.minPolarAngle = Math.PI * 0.15;
-
-    raycaster = new THREE.Raycaster();
-    mouse = new THREE.Vector2();
-
-    setupLighting('studio');
-
-    // Shadow Ground Plane
-    const groundGeo = new THREE.PlaneGeometry(3, 3);
-    const shadowCanvas = document.createElement('canvas');
-    shadowCanvas.width = 256;
-    shadowCanvas.height = 256;
-    const sCtx = shadowCanvas.getContext('2d');
-    const radGrad = sCtx.createRadialGradient(128, 128, 10, 128, 128, 115);
-    radGrad.addColorStop(0, 'rgba(0, 0, 0, 0.45)');
-    radGrad.addColorStop(0.5, 'rgba(0, 0, 0, 0.12)');
-    radGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
-    sCtx.fillStyle = radGrad;
-    sCtx.fillRect(0, 0, 256, 256);
-    const shadowTex = new THREE.CanvasTexture(shadowCanvas);
-    const groundMat = new THREE.MeshBasicMaterial({
-      map: shadowTex,
-      transparent: true,
-      opacity: 0.7,
-      depthWrite: false
-    });
-    const ground = new THREE.Mesh(groundGeo, groundMat);
-    ground.rotation.x = -Math.PI / 2;
-    ground.position.y = -0.52;
-    scene.add(ground);
-
-    loadTshirtModel();
-
-    window.addEventListener('resize', onWindowResize);
-
-    // Pointer events for Drag and Drop on 3D Shirt
-    canvas.addEventListener('pointerdown', onCanvasPointerDown);
-    window.addEventListener('pointermove', onWindowPointerMove);
-    window.addEventListener('pointerup', onWindowPointerUp);
-
-    animate();
-  }
-
-  function setupLighting(preset) {
-    if (ambientLight) scene.remove(ambientLight);
-    if (dirLight1) scene.remove(dirLight1);
-    if (dirLight2) scene.remove(dirLight2);
-    if (dirLight3) scene.remove(dirLight3);
-
-    ambientLight = new THREE.AmbientLight(0xffffff, 0.75);
-    scene.add(ambientLight);
-
-    dirLight1 = new THREE.DirectionalLight(0xffffff, 1.0);
-    dirLight1.position.set(1.5, 2.5, 2.5);
-    scene.add(dirLight1);
-
-    dirLight2 = new THREE.DirectionalLight(0xffffff, 0.6);
-    dirLight2.position.set(-2, 1.5, -2);
-    scene.add(dirLight2);
-
-    dirLight3 = new THREE.DirectionalLight(0xffffff, 0.4);
-    dirLight3.position.set(0, -1, 2);
-    scene.add(dirLight3);
-
-    if (preset === 'warm') {
-      dirLight1.color.setHex(0xffedd5);
-      dirLight2.color.setHex(0xfed7aa);
-      ambientLight.color.setHex(0xfff7ed);
-    } else if (preset === 'cool') {
-      dirLight1.color.setHex(0xcffafe);
-      dirLight2.color.setHex(0xf3e8ff);
-      ambientLight.color.setHex(0xf0fdfa);
-    } else if (preset === 'dramatic') {
-      ambientLight.intensity = 0.3;
-      dirLight1.intensity = 1.7;
-      dirLight1.position.set(2.5, 3, 1.8);
-      dirLight2.intensity = 0.9;
-    }
-  }
-
-  function loadTshirtModel() {
-    const loader = new THREE.GLTFLoader();
-    // Cache-buster query param ensures browser never serves stale cached 3D model:
-    const cacheBuster = '?v=' + Date.now();
-    const modelUrl = 'models/tshirt-mockup.glb' + cacheBuster;
-
-    loader.load(
-      modelUrl,
-      function(gltf) {
-        onModelLoaded(gltf);
+    // --- PRESET LANDMARKS ON SHIRT SURFACE ---
+    const PRESET_LANDMARKS = {
+      'front-chest': {
+        pos: new THREE.Vector3(0.0, 0.12, 0.1585),
+        norm: new THREE.Vector3(0.003, 0.148, 0.989),
+        camView: 'front'
       },
-      undefined,
-      function(err) {
-        console.warn('Could not load from models/, trying assets/assets/...', err);
-        loader.load(
-          'assets/assets/tshirt-mockup.glb' + cacheBuster,
-          function(gltf) {
-            onModelLoaded(gltf);
-          },
-          undefined,
-          function(err2) {
-            console.error('Error loading GLB:', err2);
-          }
-        );
+      'front-pocket': {
+        pos: new THREE.Vector3(0.11, 0.14, 0.1633),
+        norm: new THREE.Vector3(0.116, 0.165, 0.979),
+        camView: 'front'
+      },
+      'front-right': {
+        pos: new THREE.Vector3(-0.11, 0.14, 0.1636),
+        norm: new THREE.Vector3(-0.032, 0.136, 0.990),
+        camView: 'front'
+      },
+      'left-sleeve': {
+        pos: new THREE.Vector3(0.4281, 0.10, -0.01),
+        norm: new THREE.Vector3(0.911, 0.353, 0.214),
+        camView: 'left-sleeve'
+      },
+      'right-sleeve': {
+        pos: new THREE.Vector3(-0.4279, 0.10, -0.01),
+        norm: new THREE.Vector3(-0.935, 0.351, -0.037),
+        camView: 'right-sleeve'
+      },
+      'back-upper': {
+        pos: new THREE.Vector3(0.0, 0.16, -0.1787),
+        norm: new THREE.Vector3(-0.014, 0.042, -0.999),
+        camView: 'back'
+      },
+      'back-center': {
+        pos: new THREE.Vector3(0.0, 0.04, -0.181),
+        norm: new THREE.Vector3(0.052, -0.001, -0.999),
+        camView: 'back'
+      },
+      'back-neck': {
+        pos: new THREE.Vector3(0.0, 0.28, -0.1712),
+        norm: new THREE.Vector3(-0.064, 0.070, -0.995),
+        camView: 'back'
       }
-    );
-  }
-
-  function onModelLoaded(gltf) {
-    const root = gltf.scene;
-
-    root.traverse(function(child) {
-      if (child.isMesh) {
-        shirtMesh = child;
-        shirtMesh.castShadow = true;
-        shirtMesh.receiveShadow = true;
-
-        if (shirtMesh.material) {
-          shirtMesh.material.roughness = 0.88;
-          shirtMesh.material.metalness = 0.0;
-          shirtMesh.material.needsUpdate = true;
-          normalMapTexture = shirtMesh.material.normalMap;
-        }
-      }
-    });
-
-    const box = new THREE.Box3().setFromObject(root);
-    const center = box.getCenter(new THREE.Vector3());
-    root.position.sub(center);
-
-    scene.add(root);
-
-    const overlay = document.getElementById('loading-overlay');
-    if (overlay) {
-      overlay.style.opacity = '0';
-      setTimeout(() => overlay.style.display = 'none', 500);
-    }
-
-    updateShirtColor();
-    updateTextDecal();
-  }
-
-  function onWindowResize() {
-    const container = document.getElementById('viewport-container');
-    const width = container.clientWidth;
-    const height = container.clientHeight;
-    camera.aspect = width / height;
-    camera.updateProjectionMatrix();
-    renderer.setSize(width, height);
-  }
-
-  function animate() {
-    requestAnimationFrame(animate);
-
-    if (state.autoRotate) {
-      scene.rotation.y += 0.007;
-    }
-
-    controls.update();
-    renderer.render(scene, camera);
-  }
-
-  // --- DRAG AND DROP DIRECTLY ON 3D T-SHIRT SURFACE ---
-  function onCanvasPointerDown(e) {
-    if (!shirtMesh) return;
-
-    const rect = renderer.domElement.getBoundingClientRect();
-    mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-    mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
-
-    raycaster.setFromCamera(mouse, camera);
-    const intersects = raycaster.intersectObject(shirtMesh, true);
-
-    if (intersects.length > 0) {
-      const hit = intersects[0];
-      
-      // If in Drag Mode or Shift key held, start dragging immediately
-      if (state.interactionMode === 'drag' || e.shiftKey) {
-        isDraggingDecal = true;
-        controls.enabled = false; // Disable orbit while dragging
-        updateActiveDecalPosition(hit);
-        e.preventDefault();
-      }
-    }
-  }
-
-  function onWindowPointerMove(e) {
-    if (!isDraggingDecal || !shirtMesh) return;
-
-    const rect = renderer.domElement.getBoundingClientRect();
-    mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-    mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
-
-    raycaster.setFromCamera(mouse, camera);
-    const intersects = raycaster.intersectObject(shirtMesh, true);
-
-    if (intersects.length > 0) {
-      updateActiveDecalPosition(intersects[0]);
-    }
-  }
-
-  function onWindowPointerUp() {
-    if (isDraggingDecal) {
-      isDraggingDecal = false;
-      if (state.interactionMode === 'orbit') {
-        controls.enabled = true;
-      }
-    }
-  }
-
-  function updateActiveDecalPosition(hit) {
-    const worldPoint = hit.point.clone();
-    const worldNormal = hit.face.normal.clone().transformDirection(shirtMesh.matrixWorld).normalize();
-
-    if (state.activeTab === 'tab-image' && state.hasImage) {
-      state.imagePos = worldPoint;
-      state.imageNorm = worldNormal;
-      document.querySelectorAll('#image-placement-grid .place-btn').forEach(b => b.classList.remove('active'));
-      updateImageDecal();
-    } else {
-      state.textPos = worldPoint;
-      state.textNorm = worldNormal;
-      document.querySelectorAll('#text-placement-grid .place-btn').forEach(b => b.classList.remove('active'));
-      updateTextDecal();
-    }
-  }
-
-  // --- PRECISE SURFACE DECAL ORIENTATION ---
-  function createDecalOrientation(pos, norm, rotationAngle) {
-    const helper = new THREE.Object3D();
-    helper.position.copy(pos);
-
-    const target = pos.clone().add(norm.clone().multiplyScalar(10));
-    helper.lookAt(target);
-
-    if (rotationAngle) {
-      helper.rotateZ((rotationAngle * Math.PI) / 180);
-    }
-
-    return helper.rotation;
-  }
-
-  // 1. UPDATE SHIRT BASE COLOR
-  function updateShirtColor() {
-    if (!shirtMesh || !shirtMesh.material) return;
-    shirtMesh.material.color.set(state.shirtColor);
-    shirtMesh.material.needsUpdate = true;
-  }
-
-  // 2. UPDATE TEXT DECAL (NO CROPPING + WRAPS FABRIC)
-  function updateTextDecal() {
-    if (!shirtMesh) return;
-
-    if (!canvasText) {
-      canvasText = document.createElement('canvas');
-      canvasText.width = 2048;
-      canvasText.height = 1024;
-      decalTextureText = new THREE.CanvasTexture(canvasText);
-      decalTextureText.anisotropy = renderer.capabilities.getMaxAnisotropy();
-    }
-
-    const ctx = canvasText.getContext('2d');
-    ctx.clearRect(0, 0, 2048, 1024);
-
-    let measuredTextWidth = 100;
-    let measuredTextHeight = 100;
-
-    if (state.text && state.text.trim().length > 0) {
-      ctx.fillStyle = state.textColor;
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-
-      const renderFontSize = state.fontSize * 2.2;
-      ctx.font = `bold ${renderFontSize}px ${state.fontFamily}`;
-
-      if (state.textArc !== 0) {
-        drawCurvedText(ctx, state.text, 1024, 512, 420, (state.textArc / 100) * 1.6);
-        measuredTextWidth = 850;
-        measuredTextHeight = 450;
-      } else {
-        const lines = state.text.split('\n');
-        const lineHeight = renderFontSize * 1.18;
-        const startY = 512 - ((lines.length - 1) * lineHeight) / 2;
-
-        lines.forEach((line, idx) => {
-          const w = drawSpacedText(ctx, line, 1024, startY + idx * lineHeight, state.textSpacing);
-          if (w > measuredTextWidth) measuredTextWidth = w;
-        });
-        measuredTextHeight = lines.length * lineHeight;
-      }
-      decalTextureText.needsUpdate = true;
-    } else {
-      decalTextureText.needsUpdate = true;
-    }
-
-    if (decalMeshText) {
-      scene.remove(decalMeshText);
-      decalMeshText.geometry.dispose();
-      decalMeshText = null;
-    }
-
-    if (state.text && state.text.trim().length > 0) {
-      const pos = state.textPos.clone();
-      const norm = state.textNorm.clone();
-
-      // DYNAMIC DECAL BOX SIZING: Prevents any text cropping!
-      // Scale decal projector box width to match the exact measured text width
-      const scaleFactor = 0.00032;
-      let decalW = Math.max(measuredTextWidth * scaleFactor * 1.4, 0.22);
-      let decalH = Math.max(measuredTextHeight * scaleFactor * 1.4, 0.12);
-
-      // Keep depth very thin (0.05) so it hugs the cloth with ZERO floating
-      const size = new THREE.Vector3(decalW, decalH, 0.05);
-
-      const orientation = createDecalOrientation(pos, norm, state.textRotation);
-      const decalGeo = new THREE.DecalGeometry(shirtMesh, pos, orientation, size);
-
-      const decalMat = new THREE.MeshStandardMaterial({
-        map: decalTextureText,
-        transparent: true,
-        depthTest: true,
-        depthWrite: false,
-        polygonOffset: true,
-        polygonOffsetFactor: -3,
-        polygonOffsetUnits: -3,
-        roughness: 0.9,
-        metalness: 0.0,
-        normalMap: normalMapTexture, // Fabric creases carry through
-        normalScale: new THREE.Vector2(0.4, 0.4)
-      });
-
-      decalMeshText = new THREE.Mesh(decalGeo, decalMat);
-      scene.add(decalMeshText);
-    }
-  }
-
-  function drawSpacedText(ctx, text, x, y, spacing) {
-    if (!spacing || spacing === 0) {
-      ctx.fillText(text, x, y);
-      return ctx.measureText(text).width;
-    }
-    const chars = text.split('');
-    const widths = chars.map(c => ctx.measureText(c).width);
-    const totalW = widths.reduce((a, b) => a + b, 0) + (chars.length - 1) * spacing;
-    let curX = x - totalW / 2;
-    chars.forEach((c, i) => {
-      ctx.fillText(c, curX + widths[i] / 2, y);
-      curX += widths[i] + spacing;
-    });
-    return totalW;
-  }
-
-  function drawCurvedText(ctx, text, cx, cy, radius, angleSpan) {
-    const chars = text.split('');
-    const step = angleSpan / (chars.length - 1 || 1);
-    const startAngle = -angleSpan / 2;
-
-    ctx.save();
-    ctx.translate(cx, cy);
-    chars.forEach((c, i) => {
-      const angle = startAngle + i * step;
-      ctx.save();
-      ctx.rotate(angle);
-      ctx.translate(0, -radius);
-      ctx.fillText(c, 0, 0);
-      ctx.restore();
-    });
-    ctx.restore();
-  }
-
-  // 3. UPDATE IMAGE DECAL (NO CROPPING + WRAPS FABRIC)
-  function updateImageDecal() {
-    if (!shirtMesh) return;
-
-    if (!canvasImage) {
-      canvasImage = document.createElement('canvas');
-      canvasImage.width = 1024;
-      canvasImage.height = 1024;
-      decalTextureImage = new THREE.CanvasTexture(canvasImage);
-      decalTextureImage.anisotropy = renderer.capabilities.getMaxAnisotropy();
-    }
-
-    const ctx = canvasImage.getContext('2d');
-    ctx.clearRect(0, 0, 1024, 1024);
-
-    if (state.hasImage && state.imageElement) {
-      ctx.save();
-      ctx.translate(512, 512);
-
-      const img = state.imageElement;
-      const maxDim = 880;
-
-      let drawW, drawH;
-      if (img.width > img.height) {
-        drawW = maxDim;
-        drawH = (img.height / img.width) * maxDim;
-      } else {
-        drawH = maxDim;
-        drawW = (img.width / img.height) * maxDim;
-      }
-
-      ctx.drawImage(img, -drawW / 2, -drawH / 2, drawW, drawH);
-      ctx.restore();
-      decalTextureImage.needsUpdate = true;
-    } else {
-      decalTextureImage.needsUpdate = true;
-    }
-
-    if (decalMeshImage) {
-      scene.remove(decalMeshImage);
-      decalMeshImage.geometry.dispose();
-      decalMeshImage = null;
-    }
-
-    if (state.hasImage && state.imageElement) {
-      const pos = state.imagePos.clone();
-      const norm = state.imageNorm.clone();
-
-      const baseW = 0.24 * state.imageScale;
-      const baseH = 0.24 * state.imageScale;
-      const size = new THREE.Vector3(baseW, baseH, 0.05);
-
-      const orientation = createDecalOrientation(pos, norm, state.imageRotation);
-      const decalGeo = new THREE.DecalGeometry(shirtMesh, pos, orientation, size);
-
-      const decalMat = new THREE.MeshStandardMaterial({
-        map: decalTextureImage,
-        transparent: true,
-        depthTest: true,
-        depthWrite: false,
-        polygonOffset: true,
-        polygonOffsetFactor: -3,
-        polygonOffsetUnits: -3,
-        roughness: 0.85,
-        metalness: 0.0,
-        normalMap: normalMapTexture, // Fabric creases carry through
-        normalScale: new THREE.Vector2(0.4, 0.4)
-      });
-
-      decalMeshImage = new THREE.Mesh(decalGeo, decalMat);
-      scene.add(decalMeshImage);
-    }
-  }
-
-  // --- CAMERA SMOOTH NAVIGATION ---
-  function setCameraView(view) {
-    scene.rotation.y = 0;
-
-    document.querySelectorAll('.cam-btn').forEach(btn => btn.classList.remove('active'));
-    const btn = document.getElementById(`btn-cam-${view}`);
-    if (btn) btn.classList.add('active');
-
-    let targetCamPos = new THREE.Vector3(0, 0.05, 1.85);
-    let targetLookAt = new THREE.Vector3(0, 0, 0);
-
-    switch(view) {
-      case 'front':
-        targetCamPos.set(0, 0.05, 1.85);
-        targetLookAt.set(0, 0, 0);
-        break;
-      case 'back':
-        targetCamPos.set(0, 0.05, -1.85);
-        targetLookAt.set(0, 0, 0);
-        break;
-      case 'left-sleeve':
-        targetCamPos.set(1.65, 0.08, 0);
-        targetLookAt.set(0.32, 0.08, 0);
-        break;
-      case 'right-sleeve':
-        targetCamPos.set(-1.65, 0.08, 0);
-        targetLookAt.set(-0.32, 0.08, 0);
-        break;
-      case 'reset':
-        targetCamPos.set(0, 0.05, 1.85);
-        targetLookAt.set(0, 0, 0);
-        break;
-    }
-
-    const duration = 600;
-    const startCamPos = camera.position.clone();
-    const startLookAt = controls.target.clone();
-    const startTime = performance.now();
-
-    function animateCam(now) {
-      const elapsed = now - startTime;
-      const t = Math.min(elapsed / duration, 1);
-      const ease = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-
-      camera.position.lerpVectors(startCamPos, targetCamPos, ease);
-      controls.target.lerpVectors(startLookAt, targetLookAt, ease);
-      controls.update();
-
-      if (t < 1) {
-        requestAnimationFrame(animateCam);
-      }
-    }
-    requestAnimationFrame(animateCam);
-  }
-
-  // --- COLOR & ASSET DATA ---
-  const APPAREL_COLORS = [
-    { name: 'Pure White', hex: '#FFFFFF' },
-    { name: 'Heather Gray', hex: '#D6D7DC' },
-    { name: 'Slate Gray', hex: '#686F7D' },
-    { name: 'Midnight Black', hex: '#1C1C1E' },
-    { name: 'Navy Blue', hex: '#1D2A44' },
-    { name: 'Deep Royal', hex: '#1E40AF' },
-    { name: 'Sky Cyan', hex: '#38BDF8' },
-    { name: 'Forest Green', hex: '#1E3A2F' },
-    { name: 'Olive Army', hex: '#4D533C' },
-    { name: 'Crimson Red', hex: '#991B1B' },
-    { name: 'Sunset Terracotta', hex: '#C25438' },
-    { name: 'Mustard Gold', hex: '#D97706' },
-    { name: 'Pastel Lilac', hex: '#C084FC' },
-    { name: 'Blush Pink', hex: '#F472B6' },
-    { name: 'Beige Oatmeal', hex: '#E7DFD5' },
-    { name: 'Sage Mint', hex: '#A3B899' },
-    { name: 'Dark Burgundy', hex: '#4A1224' },
-    { name: 'Chocolate Brown', hex: '#3E2723' }
-  ];
-
-  const TEXT_COLORS = [
-    { name: 'Black', hex: '#111111' },
-    { name: 'White', hex: '#FFFFFF' },
-    { name: 'Gold', hex: '#F59E0B' },
-    { name: 'Neon Pink', hex: '#EC4899' },
-    { name: 'Cyan', hex: '#06B6D4' },
-    { name: 'Red', hex: '#EF4444' }
-  ];
-
-  const SAMPLE_GRAPHICS = [
-    {
-      name: 'Geometric Tiger',
-      svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="#E11D48" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polygon points="50,10 75,35 65,70 50,85 35,70 25,35"/><line x1="50" y1="10" x2="50" y2="85"/><line x1="25" y1="35" x2="75" y2="35"/><line x1="35" y1="70" x2="65" y2="70"/><circle cx="42" cy="45" r="4" fill="#E11D48"/><circle cx="58" cy="45" r="4" fill="#E11D48"/></svg>`
-    },
-    {
-      name: 'Retro Sunset',
-      svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><linearGradient id="g1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#F59E0B"/><stop offset="100%" stop-color="#DC2626"/></linearGradient></defs><circle cx="50" cy="50" r="40" fill="url(#g1)"/><rect x="10" y="52" width="80" height="3" fill="#1A1C23"/><rect x="10" y="60" width="80" height="4" fill="#1A1C23"/><rect x="10" y="70" width="80" height="6" fill="#1A1C23"/></svg>`
-    },
-    {
-      name: 'Cyber Skull',
-      svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="#06B6D4" stroke-width="3"><circle cx="50" cy="45" r="28"/><rect x="40" y="66" width="20" height="16" rx="3"/><circle cx="40" cy="46" r="6" fill="#06B6D4"/><circle cx="60" cy="46" r="6" fill="#06B6D4"/><line x1="46" y1="72" x2="46" y2="80"/><line x1="54" y1="72" x2="54" y2="80"/></svg>`
-    },
-    {
-      name: 'Mountain Peak',
-      svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="#10B981" stroke-width="3" stroke-linejoin="round"><polygon points="50,20 85,80 15,80"/><polygon points="50,20 62,45 50,40 38,45" fill="#10B981"/><circle cx="75" cy="30" r="7" stroke="#10B981"/></svg>`
-    }
-  ];
-
-  function populateColorSwatches() {
-    const container = document.getElementById('color-swatches');
-    container.innerHTML = '';
-    APPAREL_COLORS.forEach(c => {
-      const swatch = document.createElement('div');
-      swatch.className = 'color-swatch' + (c.hex.toLowerCase() === state.shirtColor.toLowerCase() ? ' active' : '');
-      swatch.style.backgroundColor = c.hex;
-      swatch.title = c.name;
-      swatch.addEventListener('click', () => {
-        document.querySelectorAll('#color-swatches .color-swatch').forEach(s => s.classList.remove('active'));
-        swatch.classList.add('active');
-        state.shirtColor = c.hex;
-        document.getElementById('custom-color-picker').value = c.hex;
-        document.getElementById('custom-color-hex').value = c.hex.toUpperCase();
-        updateShirtColor();
-      });
-      container.appendChild(swatch);
-    });
-
-    const textContainer = document.getElementById('text-color-swatches');
-    textContainer.innerHTML = '';
-    TEXT_COLORS.forEach(c => {
-      const swatch = document.createElement('div');
-      swatch.className = 'color-swatch' + (c.hex.toLowerCase() === state.textColor.toLowerCase() ? ' active' : '');
-      swatch.style.backgroundColor = c.hex;
-      swatch.title = c.name;
-      swatch.addEventListener('click', () => {
-        document.querySelectorAll('#text-color-swatches .color-swatch').forEach(s => s.classList.remove('active'));
-        swatch.classList.add('active');
-        state.textColor = c.hex;
-        document.getElementById('text-custom-color').value = c.hex;
-        document.getElementById('text-custom-hex').value = c.hex.toUpperCase();
-        updateTextDecal();
-      });
-      textContainer.appendChild(swatch);
-    });
-  }
-
-  function populateSampleArt() {
-    const container = document.getElementById('sample-art-grid');
-    container.innerHTML = '';
-    SAMPLE_GRAPHICS.forEach(item => {
-      const div = document.createElement('div');
-      div.className = 'preset-art-item';
-      div.title = item.name;
-      div.innerHTML = item.svg;
-      div.addEventListener('click', () => {
-        const img = new Image();
-        img.src = 'data:image/svg+xml;utf8,' + encodeURIComponent(item.svg);
-        img.onload = () => {
-          state.imageElement = img;
-          state.hasImage = true;
-          document.getElementById('image-status-text').textContent = 'Selected: ' + item.name;
-          updateImageDecal();
-        };
-      });
-      container.appendChild(div);
-    });
-  }
-
-  function setupEventListeners() {
-    // Tab switching
-    document.querySelectorAll('.tab-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
-        btn.classList.add('active');
-        state.activeTab = btn.dataset.tab;
-        document.getElementById(btn.dataset.tab).classList.add('active');
-      });
-    });
-
-    // Viewport Mode Switcher: Orbit vs Drag to Move
-    const modeOrbit = document.getElementById('mode-orbit');
-    const modeDrag = document.getElementById('mode-drag');
-    const canvasEl = document.getElementById('canvas3d');
-    const banner = document.getElementById('drag-hint-banner');
-
-    modeOrbit.addEventListener('click', () => {
-      state.interactionMode = 'orbit';
-      modeOrbit.classList.add('active');
-      modeDrag.classList.remove('active');
-      canvasEl.classList.remove('cursor-drag');
-      banner.style.display = 'none';
-      controls.enabled = true;
-    });
-
-    modeDrag.addEventListener('click', () => {
-      state.interactionMode = 'drag';
-      modeDrag.classList.add('active');
-      modeOrbit.classList.remove('active');
-      canvasEl.classList.add('cursor-drag');
-      banner.style.display = 'block';
-    });
-
-    // Color Pickers
-    const colorPicker = document.getElementById('custom-color-picker');
-    const colorHex = document.getElementById('custom-color-hex');
-    colorPicker.addEventListener('input', (e) => {
-      state.shirtColor = e.target.value;
-      colorHex.value = e.target.value.toUpperCase();
-      document.querySelectorAll('#color-swatches .color-swatch').forEach(s => s.classList.remove('active'));
-      updateShirtColor();
-    });
-    colorHex.addEventListener('change', (e) => {
-      if (/^#[0-9A-F]{6}$/i.test(e.target.value)) {
-        state.shirtColor = e.target.value;
-        colorPicker.value = e.target.value;
-        updateShirtColor();
-      }
-    });
+    };
+
+    // --- THREE.JS SCENE SETUP ---
+    let scene, camera, renderer, controls;
+    let shirtMesh = null;
+    let raycaster, mouse;
+    let normalMapTexture = null;
+
+    // Decals
+    let decalMeshText = null;
+    let decalMeshImage = null;
+    let canvasText = null;
+    let canvasImage = null;
+    let decalTextureText = null;
+    let decalTextureImage = null;
+
+    // Interactive Drag-and-Drop
+    let isDraggingDecal = false;
 
     // Lighting
-    document.getElementById('light-studio').addEventListener('click', (e) => {
-      highlightLightBtn(e.currentTarget);
-      setupLighting('studio');
-    });
-    document.getElementById('light-warm').addEventListener('click', (e) => {
-      highlightLightBtn(e.currentTarget);
-      setupLighting('warm');
-    });
-    document.getElementById('light-cool').addEventListener('click', (e) => {
-      highlightLightBtn(e.currentTarget);
-      setupLighting('cool');
-    });
-    document.getElementById('light-dramatic').addEventListener('click', (e) => {
-      highlightLightBtn(e.currentTarget);
-      setupLighting('dramatic');
-    });
+    let ambientLight, dirLight1, dirLight2, dirLight3;
 
-    function highlightLightBtn(target) {
-      document.querySelectorAll('#tab-color .place-btn').forEach(b => b.classList.remove('active'));
-      target.classList.add('active');
+    function init3D() {
+      const container = document.getElementById('viewport-container');
+      const width = container.clientWidth;
+      const height = container.clientHeight;
+
+      scene = new THREE.Scene();
+
+      camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 100);
+      camera.position.set(0, 0.05, 1.85);
+
+      const canvas = document.getElementById('canvas3d');
+      renderer = new THREE.WebGLRenderer({
+        canvas: canvas,
+        antialias: true,
+        alpha: true,
+        preserveDrawingBuffer: true
+      });
+      renderer.setSize(width, height);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.15;
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+      controls = new THREE.OrbitControls(camera, renderer.domElement);
+      controls.enableDamping = true;
+      controls.dampingFactor = 0.06;
+      controls.minDistance = 0.6;
+      controls.maxDistance = 3.5;
+      controls.target.set(0, 0, 0);
+      controls.maxPolarAngle = Math.PI * 0.85;
+      controls.minPolarAngle = Math.PI * 0.15;
+
+      raycaster = new THREE.Raycaster();
+      mouse = new THREE.Vector2();
+
+      setupLighting('studio');
+
+      // Shadow Ground Plane
+      const groundGeo = new THREE.PlaneGeometry(3, 3);
+      const shadowCanvas = document.createElement('canvas');
+      shadowCanvas.width = 256;
+      shadowCanvas.height = 256;
+      const sCtx = shadowCanvas.getContext('2d');
+      const radGrad = sCtx.createRadialGradient(128, 128, 10, 128, 128, 115);
+      radGrad.addColorStop(0, 'rgba(0, 0, 0, 0.45)');
+      radGrad.addColorStop(0.5, 'rgba(0, 0, 0, 0.12)');
+      radGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+      sCtx.fillStyle = radGrad;
+      sCtx.fillRect(0, 0, 256, 256);
+      const shadowTex = new THREE.CanvasTexture(shadowCanvas);
+      const groundMat = new THREE.MeshBasicMaterial({
+        map: shadowTex,
+        transparent: true,
+        opacity: 0.7,
+        depthWrite: false
+      });
+      const ground = new THREE.Mesh(groundGeo, groundMat);
+      ground.rotation.x = -Math.PI / 2;
+      ground.position.y = -0.52;
+      scene.add(ground);
+
+      loadTshirtModel();
+
+      window.addEventListener('resize', onWindowResize);
+
+      // Pointer events for Drag and Drop on 3D Shirt
+      canvas.addEventListener('pointerdown', onCanvasPointerDown);
+      window.addEventListener('pointermove', onWindowPointerMove);
+      window.addEventListener('pointerup', onWindowPointerUp);
+
+      animate();
     }
 
-    // Text Input & Fonts
-    const textInput = document.getElementById('text-input');
-    textInput.addEventListener('input', (e) => {
-      state.text = e.target.value;
-      updateTextDecal();
-    });
+    function setupLighting(preset) {
+      if (ambientLight) scene.remove(ambientLight);
+      if (dirLight1) scene.remove(dirLight1);
+      if (dirLight2) scene.remove(dirLight2);
+      if (dirLight3) scene.remove(dirLight3);
 
-    document.getElementById('font-family-select').addEventListener('change', (e) => {
-      state.fontFamily = e.target.value;
-      updateTextDecal();
-    });
+      ambientLight = new THREE.AmbientLight(0xffffff, 0.75);
+      scene.add(ambientLight);
 
-    const textSizeRange = document.getElementById('text-size-range');
-    const textSizeVal = document.getElementById('text-size-val');
-    textSizeRange.addEventListener('input', (e) => {
-      state.fontSize = parseInt(e.target.value);
-      textSizeVal.textContent = e.target.value + 'px';
-      updateTextDecal();
-    });
+      dirLight1 = new THREE.DirectionalLight(0xffffff, 1.0);
+      dirLight1.position.set(1.5, 2.5, 2.5);
+      scene.add(dirLight1);
 
-    const textArcRange = document.getElementById('text-arc-range');
-    const textArcVal = document.getElementById('text-arc-val');
-    textArcRange.addEventListener('input', (e) => {
-      state.textArc = parseInt(e.target.value);
-      textArcVal.textContent = e.target.value + '%';
-      updateTextDecal();
-    });
+      dirLight2 = new THREE.DirectionalLight(0xffffff, 0.6);
+      dirLight2.position.set(-2, 1.5, -2);
+      scene.add(dirLight2);
 
-    const textSpacingRange = document.getElementById('text-spacing-range');
-    const textSpacingVal = document.getElementById('text-spacing-val');
-    textSpacingRange.addEventListener('input', (e) => {
-      state.textSpacing = parseInt(e.target.value);
-      textSpacingVal.textContent = e.target.value + 'px';
-      updateTextDecal();
-    });
+      dirLight3 = new THREE.DirectionalLight(0xffffff, 0.4);
+      dirLight3.position.set(0, -1, 2);
+      scene.add(dirLight3);
 
-    const textRotRange = document.getElementById('text-rot-range');
-    const textRotVal = document.getElementById('text-rot-val');
-    textRotRange.addEventListener('input', (e) => {
-      state.textRotation = parseInt(e.target.value);
-      textRotVal.textContent = e.target.value + '°';
-      updateTextDecal();
-    });
+      if (preset === 'warm') {
+        dirLight1.color.setHex(0xffedd5);
+        dirLight2.color.setHex(0xfed7aa);
+        ambientLight.color.setHex(0xfff7ed);
+      } else if (preset === 'cool') {
+        dirLight1.color.setHex(0xcffafe);
+        dirLight2.color.setHex(0xf3e8ff);
+        ambientLight.color.setHex(0xf0fdfa);
+      } else if (preset === 'dramatic') {
+        ambientLight.intensity = 0.3;
+        dirLight1.intensity = 1.7;
+        dirLight1.position.set(2.5, 3, 1.8);
+        dirLight2.intensity = 0.9;
+      }
+    }
 
-    // Text Color
-    const textColorPicker = document.getElementById('text-custom-color');
-    const textColorHex = document.getElementById('text-custom-hex');
-    textColorPicker.addEventListener('input', (e) => {
-      state.textColor = e.target.value;
-      textColorHex.value = e.target.value.toUpperCase();
-      document.querySelectorAll('#text-color-swatches .color-swatch').forEach(s => s.classList.remove('active'));
+    function loadTshirtModel() {
+      const loader = new THREE.GLTFLoader();
+      // Cache-buster query param ensures browser never serves stale cached 3D model:
+      const cacheBuster = '?v=' + Date.now();
+      const modelUrl = 'models/tshirt-mockup.glb' + cacheBuster;
+
+      loader.load(
+        modelUrl,
+        function (gltf) {
+          onModelLoaded(gltf);
+        },
+        undefined,
+        function (err) {
+          console.warn('Could not load from models/, trying assets/assets/...', err);
+          loader.load(
+            'assets/assets/tshirt-mockup.glb' + cacheBuster,
+            function (gltf) {
+              onModelLoaded(gltf);
+            },
+            undefined,
+            function (err2) {
+              console.error('Error loading GLB:', err2);
+            }
+          );
+        }
+      );
+    }
+
+    function onModelLoaded(gltf) {
+      const root = gltf.scene;
+
+      root.traverse(function (child) {
+        if (child.isMesh) {
+          shirtMesh = child;
+          shirtMesh.castShadow = true;
+          shirtMesh.receiveShadow = true;
+
+          if (shirtMesh.material) {
+            shirtMesh.material.roughness = 0.88;
+            shirtMesh.material.metalness = 0.0;
+            shirtMesh.material.needsUpdate = true;
+            normalMapTexture = shirtMesh.material.normalMap;
+          }
+        }
+      });
+
+      const box = new THREE.Box3().setFromObject(root);
+      const center = box.getCenter(new THREE.Vector3());
+      root.position.sub(center);
+
+      scene.add(root);
+
+      const overlay = document.getElementById('loading-overlay');
+      if (overlay) {
+        overlay.style.opacity = '0';
+        setTimeout(() => overlay.style.display = 'none', 500);
+      }
+
+      updateShirtColor();
       updateTextDecal();
-    });
-    textColorHex.addEventListener('change', (e) => {
-      if (/^#[0-9A-F]{6}$/i.test(e.target.value)) {
-        state.textColor = e.target.value;
-        textColorPicker.value = e.target.value;
+    }
+
+    function onWindowResize() {
+      const container = document.getElementById('viewport-container');
+      const width = container.clientWidth;
+      const height = container.clientHeight;
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+      renderer.setSize(width, height);
+    }
+
+    function animate() {
+      requestAnimationFrame(animate);
+
+      if (state.autoRotate) {
+        scene.rotation.y += 0.007;
+      }
+
+      controls.update();
+      renderer.render(scene, camera);
+    }
+
+    // --- DRAG AND DROP DIRECTLY ON 3D T-SHIRT SURFACE ---
+    function onCanvasPointerDown(e) {
+      if (!shirtMesh) return;
+
+      const rect = renderer.domElement.getBoundingClientRect();
+      mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+      mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+
+      raycaster.setFromCamera(mouse, camera);
+      const intersects = raycaster.intersectObject(shirtMesh, true);
+
+      if (intersects.length > 0) {
+        const hit = intersects[0];
+
+        // If in Drag Mode or Shift key held, start dragging immediately
+        if (state.interactionMode === 'drag' || e.shiftKey) {
+          isDraggingDecal = true;
+          controls.enabled = false; // Disable orbit while dragging
+          updateActiveDecalPosition(hit);
+          e.preventDefault();
+        }
+      }
+    }
+
+    function onWindowPointerMove(e) {
+      if (!isDraggingDecal || !shirtMesh) return;
+
+      const rect = renderer.domElement.getBoundingClientRect();
+      mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+      mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+
+      raycaster.setFromCamera(mouse, camera);
+      const intersects = raycaster.intersectObject(shirtMesh, true);
+
+      if (intersects.length > 0) {
+        updateActiveDecalPosition(intersects[0]);
+      }
+    }
+
+    function onWindowPointerUp() {
+      if (isDraggingDecal) {
+        isDraggingDecal = false;
+        if (state.interactionMode === 'orbit') {
+          controls.enabled = true;
+        }
+      }
+    }
+
+    function updateActiveDecalPosition(hit) {
+      const worldPoint = hit.point.clone();
+      const worldNormal = hit.face.normal.clone().transformDirection(shirtMesh.matrixWorld).normalize();
+
+      if (state.activeTab === 'tab-image' && state.hasImage) {
+        state.imagePos = worldPoint;
+        state.imageNorm = worldNormal;
+        document.querySelectorAll('#image-placement-grid .place-btn').forEach(b => b.classList.remove('active'));
+        updateImageDecal();
+      } else {
+        state.textPos = worldPoint;
+        state.textNorm = worldNormal;
+        document.querySelectorAll('#text-placement-grid .place-btn').forEach(b => b.classList.remove('active'));
         updateTextDecal();
       }
-    });
+    }
 
-    // Text Preset Placement
-    document.querySelectorAll('[data-text-pos]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('[data-text-pos]').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        state.textPositionKey = btn.dataset.textPos;
+    // --- PRECISE SURFACE DECAL ORIENTATION ---
+    function createDecalOrientation(pos, norm, rotationAngle) {
+      const helper = new THREE.Object3D();
+      helper.position.copy(pos);
 
-        const landmark = PRESET_LANDMARKS[state.textPositionKey];
-        if (landmark) {
-          state.textPos = landmark.pos.clone();
-          state.textNorm = landmark.norm.clone();
-          if (landmark.camView) setCameraView(landmark.camView);
+      const target = pos.clone().add(norm.clone().multiplyScalar(10));
+      helper.lookAt(target);
+
+      if (rotationAngle) {
+        helper.rotateZ((rotationAngle * Math.PI) / 180);
+      }
+
+      return helper.rotation;
+    }
+
+    // 1. UPDATE SHIRT BASE COLOR
+    function updateShirtColor() {
+      if (!shirtMesh || !shirtMesh.material) return;
+      shirtMesh.material.color.set(state.shirtColor);
+      shirtMesh.material.needsUpdate = true;
+    }
+
+    // 2. UPDATE TEXT DECAL (NO CROPPING + WRAPS FABRIC)
+    function updateTextDecal() {
+      if (!shirtMesh) return;
+
+      if (!canvasText) {
+        canvasText = document.createElement('canvas');
+        canvasText.width = 2048;
+        canvasText.height = 1024;
+        decalTextureText = new THREE.CanvasTexture(canvasText);
+        decalTextureText.anisotropy = renderer.capabilities.getMaxAnisotropy();
+      }
+
+      const ctx = canvasText.getContext('2d');
+      ctx.clearRect(0, 0, 2048, 1024);
+
+      let measuredTextWidth = 100;
+      let measuredTextHeight = 100;
+
+      if (state.text && state.text.trim().length > 0) {
+        ctx.fillStyle = state.textColor;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+
+        const renderFontSize = state.fontSize * 2.2;
+        ctx.font = `bold ${renderFontSize}px ${state.fontFamily}`;
+
+        if (state.textArc !== 0) {
+          drawCurvedText(ctx, state.text, 1024, 512, 420, (state.textArc / 100) * 1.6);
+          measuredTextWidth = 850;
+          measuredTextHeight = 450;
+        } else {
+          const lines = state.text.split('\n');
+          const lineHeight = renderFontSize * 1.18;
+          const startY = 512 - ((lines.length - 1) * lineHeight) / 2;
+
+          lines.forEach((line, idx) => {
+            const w = drawSpacedText(ctx, line, 1024, startY + idx * lineHeight, state.textSpacing);
+            if (w > measuredTextWidth) measuredTextWidth = w;
+          });
+          measuredTextHeight = lines.length * lineHeight;
         }
+        decalTextureText.needsUpdate = true;
+      } else {
+        decalTextureText.needsUpdate = true;
+      }
+
+      if (decalMeshText) {
+        scene.remove(decalMeshText);
+        decalMeshText.geometry.dispose();
+        decalMeshText = null;
+      }
+
+      if (state.text && state.text.trim().length > 0) {
+        const pos = state.textPos.clone();
+        const norm = state.textNorm.clone();
+
+        // DYNAMIC DECAL BOX SIZING: Prevents any text cropping!
+        // Scale decal projector box width to match the exact measured text width
+        const scaleFactor = 0.00032;
+        let decalW = Math.max(measuredTextWidth * scaleFactor * 1.4, 0.22);
+        let decalH = Math.max(measuredTextHeight * scaleFactor * 1.4, 0.12);
+
+        // Keep depth very thin (0.05) so it hugs the cloth with ZERO floating
+        const size = new THREE.Vector3(decalW, decalH, 0.05);
+
+        const orientation = createDecalOrientation(pos, norm, state.textRotation);
+        const decalGeo = new THREE.DecalGeometry(shirtMesh, pos, orientation, size);
+
+        const decalMat = new THREE.MeshStandardMaterial({
+          map: decalTextureText,
+          transparent: true,
+          depthTest: true,
+          depthWrite: false,
+          polygonOffset: true,
+          polygonOffsetFactor: -3,
+          polygonOffsetUnits: -3,
+          roughness: 0.9,
+          metalness: 0.0,
+          normalMap: normalMapTexture, // Fabric creases carry through
+          normalScale: new THREE.Vector2(0.4, 0.4)
+        });
+
+        decalMeshText = new THREE.Mesh(decalGeo, decalMat);
+        scene.add(decalMeshText);
+      }
+    }
+
+    function drawSpacedText(ctx, text, x, y, spacing) {
+      if (!spacing || spacing === 0) {
+        ctx.fillText(text, x, y);
+        return ctx.measureText(text).width;
+      }
+      const chars = text.split('');
+      const widths = chars.map(c => ctx.measureText(c).width);
+      const totalW = widths.reduce((a, b) => a + b, 0) + (chars.length - 1) * spacing;
+      let curX = x - totalW / 2;
+      chars.forEach((c, i) => {
+        ctx.fillText(c, curX + widths[i] / 2, y);
+        curX += widths[i] + spacing;
+      });
+      return totalW;
+    }
+
+    function drawCurvedText(ctx, text, cx, cy, radius, angleSpan) {
+      const chars = text.split('');
+      const step = angleSpan / (chars.length - 1 || 1);
+      const startAngle = -angleSpan / 2;
+
+      ctx.save();
+      ctx.translate(cx, cy);
+      chars.forEach((c, i) => {
+        const angle = startAngle + i * step;
+        ctx.save();
+        ctx.rotate(angle);
+        ctx.translate(0, -radius);
+        ctx.fillText(c, 0, 0);
+        ctx.restore();
+      });
+      ctx.restore();
+    }
+
+    // 3. UPDATE IMAGE DECAL (NO CROPPING + WRAPS FABRIC)
+    function updateImageDecal() {
+      if (!shirtMesh) return;
+
+      if (!canvasImage) {
+        canvasImage = document.createElement('canvas');
+        canvasImage.width = 1024;
+        canvasImage.height = 1024;
+        decalTextureImage = new THREE.CanvasTexture(canvasImage);
+        decalTextureImage.anisotropy = renderer.capabilities.getMaxAnisotropy();
+      }
+
+      const ctx = canvasImage.getContext('2d');
+      ctx.clearRect(0, 0, 1024, 1024);
+
+      if (state.hasImage && state.imageElement) {
+        ctx.save();
+        ctx.translate(512, 512);
+
+        const img = state.imageElement;
+        const maxDim = 880;
+
+        let drawW, drawH;
+        if (img.width > img.height) {
+          drawW = maxDim;
+          drawH = (img.height / img.width) * maxDim;
+        } else {
+          drawH = maxDim;
+          drawW = (img.width / img.height) * maxDim;
+        }
+
+        ctx.drawImage(img, -drawW / 2, -drawH / 2, drawW, drawH);
+        ctx.restore();
+        decalTextureImage.needsUpdate = true;
+      } else {
+        decalTextureImage.needsUpdate = true;
+      }
+
+      if (decalMeshImage) {
+        scene.remove(decalMeshImage);
+        decalMeshImage.geometry.dispose();
+        decalMeshImage = null;
+      }
+
+      if (state.hasImage && state.imageElement) {
+        const pos = state.imagePos.clone();
+        const norm = state.imageNorm.clone();
+
+        const baseW = 0.24 * state.imageScale;
+        const baseH = 0.24 * state.imageScale;
+        const size = new THREE.Vector3(baseW, baseH, 0.05);
+
+        const orientation = createDecalOrientation(pos, norm, state.imageRotation);
+        const decalGeo = new THREE.DecalGeometry(shirtMesh, pos, orientation, size);
+
+        const decalMat = new THREE.MeshStandardMaterial({
+          map: decalTextureImage,
+          transparent: true,
+          depthTest: true,
+          depthWrite: false,
+          polygonOffset: true,
+          polygonOffsetFactor: -3,
+          polygonOffsetUnits: -3,
+          roughness: 0.85,
+          metalness: 0.0,
+          normalMap: normalMapTexture, // Fabric creases carry through
+          normalScale: new THREE.Vector2(0.4, 0.4)
+        });
+
+        decalMeshImage = new THREE.Mesh(decalGeo, decalMat);
+        scene.add(decalMeshImage);
+      }
+    }
+
+    // --- CAMERA SMOOTH NAVIGATION ---
+    function setCameraView(view) {
+      scene.rotation.y = 0;
+
+      document.querySelectorAll('.cam-btn').forEach(btn => btn.classList.remove('active'));
+      const btn = document.getElementById(`btn-cam-${view}`);
+      if (btn) btn.classList.add('active');
+
+      let targetCamPos = new THREE.Vector3(0, 0.05, 1.85);
+      let targetLookAt = new THREE.Vector3(0, 0, 0);
+
+      switch (view) {
+        case 'front':
+          targetCamPos.set(0, 0.05, 1.85);
+          targetLookAt.set(0, 0, 0);
+          break;
+        case 'back':
+          targetCamPos.set(0, 0.05, -1.85);
+          targetLookAt.set(0, 0, 0);
+          break;
+        case 'left-sleeve':
+          targetCamPos.set(1.65, 0.08, 0);
+          targetLookAt.set(0.32, 0.08, 0);
+          break;
+        case 'right-sleeve':
+          targetCamPos.set(-1.65, 0.08, 0);
+          targetLookAt.set(-0.32, 0.08, 0);
+          break;
+        case 'reset':
+          targetCamPos.set(0, 0.05, 1.85);
+          targetLookAt.set(0, 0, 0);
+          break;
+      }
+
+      const duration = 600;
+      const startCamPos = camera.position.clone();
+      const startLookAt = controls.target.clone();
+      const startTime = performance.now();
+
+      function animateCam(now) {
+        const elapsed = now - startTime;
+        const t = Math.min(elapsed / duration, 1);
+        const ease = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+        camera.position.lerpVectors(startCamPos, targetCamPos, ease);
+        controls.target.lerpVectors(startLookAt, targetLookAt, ease);
+        controls.update();
+
+        if (t < 1) {
+          requestAnimationFrame(animateCam);
+        }
+      }
+      requestAnimationFrame(animateCam);
+    }
+
+    // --- COLOR & ASSET DATA ---
+    const APPAREL_COLORS = [
+      { name: 'Pure White', hex: '#FFFFFF' },
+      { name: 'Heather Gray', hex: '#D6D7DC' },
+      { name: 'Slate Gray', hex: '#686F7D' },
+      { name: 'Midnight Black', hex: '#1C1C1E' },
+      { name: 'Navy Blue', hex: '#1D2A44' },
+      { name: 'Deep Royal', hex: '#1E40AF' },
+      { name: 'Sky Cyan', hex: '#38BDF8' },
+      { name: 'Forest Green', hex: '#1E3A2F' },
+      { name: 'Olive Army', hex: '#4D533C' },
+      { name: 'Crimson Red', hex: '#991B1B' },
+      { name: 'Sunset Terracotta', hex: '#C25438' },
+      { name: 'Mustard Gold', hex: '#D97706' },
+      { name: 'Pastel Lilac', hex: '#C084FC' },
+      { name: 'Blush Pink', hex: '#F472B6' },
+      { name: 'Beige Oatmeal', hex: '#E7DFD5' },
+      { name: 'Sage Mint', hex: '#A3B899' },
+      { name: 'Dark Burgundy', hex: '#4A1224' },
+      { name: 'Chocolate Brown', hex: '#3E2723' }
+    ];
+
+    const TEXT_COLORS = [
+      { name: 'Black', hex: '#111111' },
+      { name: 'White', hex: '#FFFFFF' },
+      { name: 'Gold', hex: '#F59E0B' },
+      { name: 'Neon Pink', hex: '#EC4899' },
+      { name: 'Cyan', hex: '#06B6D4' },
+      { name: 'Red', hex: '#EF4444' }
+    ];
+
+    const SAMPLE_GRAPHICS = [
+      {
+        name: 'Geometric Tiger',
+        svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="#E11D48" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polygon points="50,10 75,35 65,70 50,85 35,70 25,35"/><line x1="50" y1="10" x2="50" y2="85"/><line x1="25" y1="35" x2="75" y2="35"/><line x1="35" y1="70" x2="65" y2="70"/><circle cx="42" cy="45" r="4" fill="#E11D48"/><circle cx="58" cy="45" r="4" fill="#E11D48"/></svg>`
+      },
+      {
+        name: 'Retro Sunset',
+        svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><linearGradient id="g1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#F59E0B"/><stop offset="100%" stop-color="#DC2626"/></linearGradient></defs><circle cx="50" cy="50" r="40" fill="url(#g1)"/><rect x="10" y="52" width="80" height="3" fill="#1A1C23"/><rect x="10" y="60" width="80" height="4" fill="#1A1C23"/><rect x="10" y="70" width="80" height="6" fill="#1A1C23"/></svg>`
+      },
+      {
+        name: 'Cyber Skull',
+        svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="#06B6D4" stroke-width="3"><circle cx="50" cy="45" r="28"/><rect x="40" y="66" width="20" height="16" rx="3"/><circle cx="40" cy="46" r="6" fill="#06B6D4"/><circle cx="60" cy="46" r="6" fill="#06B6D4"/><line x1="46" y1="72" x2="46" y2="80"/><line x1="54" y1="72" x2="54" y2="80"/></svg>`
+      },
+      {
+        name: 'Mountain Peak',
+        svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="#10B981" stroke-width="3" stroke-linejoin="round"><polygon points="50,20 85,80 15,80"/><polygon points="50,20 62,45 50,40 38,45" fill="#10B981"/><circle cx="75" cy="30" r="7" stroke="#10B981"/></svg>`
+      }
+    ];
+
+    function populateColorSwatches() {
+      const container = document.getElementById('color-swatches');
+      container.innerHTML = '';
+      APPAREL_COLORS.forEach(c => {
+        const swatch = document.createElement('div');
+        swatch.className = 'color-swatch' + (c.hex.toLowerCase() === state.shirtColor.toLowerCase() ? ' active' : '');
+        swatch.style.backgroundColor = c.hex;
+        swatch.title = c.name;
+        swatch.addEventListener('click', () => {
+          document.querySelectorAll('#color-swatches .color-swatch').forEach(s => s.classList.remove('active'));
+          swatch.classList.add('active');
+          state.shirtColor = c.hex;
+          document.getElementById('custom-color-picker').value = c.hex;
+          document.getElementById('custom-color-hex').value = c.hex.toUpperCase();
+          updateShirtColor();
+        });
+        container.appendChild(swatch);
+      });
+
+      const textContainer = document.getElementById('text-color-swatches');
+      textContainer.innerHTML = '';
+      TEXT_COLORS.forEach(c => {
+        const swatch = document.createElement('div');
+        swatch.className = 'color-swatch' + (c.hex.toLowerCase() === state.textColor.toLowerCase() ? ' active' : '');
+        swatch.style.backgroundColor = c.hex;
+        swatch.title = c.name;
+        swatch.addEventListener('click', () => {
+          document.querySelectorAll('#text-color-swatches .color-swatch').forEach(s => s.classList.remove('active'));
+          swatch.classList.add('active');
+          state.textColor = c.hex;
+          document.getElementById('text-custom-color').value = c.hex;
+          document.getElementById('text-custom-hex').value = c.hex.toUpperCase();
+          updateTextDecal();
+        });
+        textContainer.appendChild(swatch);
+      });
+    }
+
+    function populateSampleArt() {
+      const container = document.getElementById('sample-art-grid');
+      container.innerHTML = '';
+      SAMPLE_GRAPHICS.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'preset-art-item';
+        div.title = item.name;
+        div.innerHTML = item.svg;
+        div.addEventListener('click', () => {
+          const img = new Image();
+          img.src = 'data:image/svg+xml;utf8,' + encodeURIComponent(item.svg);
+          img.onload = () => {
+            state.imageElement = img;
+            state.hasImage = true;
+            document.getElementById('image-status-text').textContent = 'Selected: ' + item.name;
+            updateImageDecal();
+          };
+        });
+        container.appendChild(div);
+      });
+    }
+
+    function setupEventListeners() {
+      // Tab switching
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+          document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+          btn.classList.add('active');
+          state.activeTab = btn.dataset.tab;
+          document.getElementById(btn.dataset.tab).classList.add('active');
+        });
+      });
+
+      // Viewport Mode Switcher: Orbit vs Drag to Move
+      const modeOrbit = document.getElementById('mode-orbit');
+      const modeDrag = document.getElementById('mode-drag');
+      const canvasEl = document.getElementById('canvas3d');
+      const banner = document.getElementById('drag-hint-banner');
+
+      modeOrbit.addEventListener('click', () => {
+        state.interactionMode = 'orbit';
+        modeOrbit.classList.add('active');
+        modeDrag.classList.remove('active');
+        canvasEl.classList.remove('cursor-drag');
+        banner.style.display = 'none';
+        controls.enabled = true;
+      });
+
+      modeDrag.addEventListener('click', () => {
+        state.interactionMode = 'drag';
+        modeDrag.classList.add('active');
+        modeOrbit.classList.remove('active');
+        canvasEl.classList.add('cursor-drag');
+        banner.style.display = 'block';
+      });
+
+      // Color Pickers
+      const colorPicker = document.getElementById('custom-color-picker');
+      const colorHex = document.getElementById('custom-color-hex');
+      colorPicker.addEventListener('input', (e) => {
+        state.shirtColor = e.target.value;
+        colorHex.value = e.target.value.toUpperCase();
+        document.querySelectorAll('#color-swatches .color-swatch').forEach(s => s.classList.remove('active'));
+        updateShirtColor();
+      });
+      colorHex.addEventListener('change', (e) => {
+        if (/^#[0-9A-F]{6}$/i.test(e.target.value)) {
+          state.shirtColor = e.target.value;
+          colorPicker.value = e.target.value;
+          updateShirtColor();
+        }
+      });
+
+      // Lighting
+      document.getElementById('light-studio').addEventListener('click', (e) => {
+        highlightLightBtn(e.currentTarget);
+        setupLighting('studio');
+      });
+      document.getElementById('light-warm').addEventListener('click', (e) => {
+        highlightLightBtn(e.currentTarget);
+        setupLighting('warm');
+      });
+      document.getElementById('light-cool').addEventListener('click', (e) => {
+        highlightLightBtn(e.currentTarget);
+        setupLighting('cool');
+      });
+      document.getElementById('light-dramatic').addEventListener('click', (e) => {
+        highlightLightBtn(e.currentTarget);
+        setupLighting('dramatic');
+      });
+
+      function highlightLightBtn(target) {
+        document.querySelectorAll('#tab-color .place-btn').forEach(b => b.classList.remove('active'));
+        target.classList.add('active');
+      }
+
+      // Text Input & Fonts
+      const textInput = document.getElementById('text-input');
+      textInput.addEventListener('input', (e) => {
+        state.text = e.target.value;
         updateTextDecal();
       });
-    });
 
-    document.getElementById('btn-clear-text').addEventListener('click', () => {
-      state.text = '';
-      textInput.value = '';
-      updateTextDecal();
-    });
+      document.getElementById('font-family-select').addEventListener('change', (e) => {
+        state.fontFamily = e.target.value;
+        updateTextDecal();
+      });
 
-    // Image Upload & Scaling
-    const uploadZone = document.getElementById('upload-zone');
-    const fileInput = document.getElementById('file-input');
-    uploadZone.addEventListener('click', () => fileInput.click());
+      const textSizeRange = document.getElementById('text-size-range');
+      const textSizeVal = document.getElementById('text-size-val');
+      textSizeRange.addEventListener('input', (e) => {
+        state.fontSize = parseInt(e.target.value);
+        textSizeVal.textContent = e.target.value + 'px';
+        updateTextDecal();
+      });
 
-    fileInput.addEventListener('change', (e) => {
-      if (e.target.files && e.target.files[0]) {
-        processUploadedFile(e.target.files[0]);
+      const textArcRange = document.getElementById('text-arc-range');
+      const textArcVal = document.getElementById('text-arc-val');
+      textArcRange.addEventListener('input', (e) => {
+        state.textArc = parseInt(e.target.value);
+        textArcVal.textContent = e.target.value + '%';
+        updateTextDecal();
+      });
+
+      const textSpacingRange = document.getElementById('text-spacing-range');
+      const textSpacingVal = document.getElementById('text-spacing-val');
+      textSpacingRange.addEventListener('input', (e) => {
+        state.textSpacing = parseInt(e.target.value);
+        textSpacingVal.textContent = e.target.value + 'px';
+        updateTextDecal();
+      });
+
+      const textRotRange = document.getElementById('text-rot-range');
+      const textRotVal = document.getElementById('text-rot-val');
+      textRotRange.addEventListener('input', (e) => {
+        state.textRotation = parseInt(e.target.value);
+        textRotVal.textContent = e.target.value + '°';
+        updateTextDecal();
+      });
+
+      // Text Color
+      const textColorPicker = document.getElementById('text-custom-color');
+      const textColorHex = document.getElementById('text-custom-hex');
+      textColorPicker.addEventListener('input', (e) => {
+        state.textColor = e.target.value;
+        textColorHex.value = e.target.value.toUpperCase();
+        document.querySelectorAll('#text-color-swatches .color-swatch').forEach(s => s.classList.remove('active'));
+        updateTextDecal();
+      });
+      textColorHex.addEventListener('change', (e) => {
+        if (/^#[0-9A-F]{6}$/i.test(e.target.value)) {
+          state.textColor = e.target.value;
+          textColorPicker.value = e.target.value;
+          updateTextDecal();
+        }
+      });
+
+      // Text Preset Placement
+      document.querySelectorAll('[data-text-pos]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('[data-text-pos]').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          state.textPositionKey = btn.dataset.textPos;
+
+          const landmark = PRESET_LANDMARKS[state.textPositionKey];
+          if (landmark) {
+            state.textPos = landmark.pos.clone();
+            state.textNorm = landmark.norm.clone();
+            if (landmark.camView) setCameraView(landmark.camView);
+          }
+          updateTextDecal();
+        });
+      });
+
+      document.getElementById('btn-clear-text').addEventListener('click', () => {
+        state.text = '';
+        textInput.value = '';
+        updateTextDecal();
+      });
+
+      // HUD Visibility Toggling (Full 3D View)
+      function toggleHUD(forceState) {
+        const appContainer = document.getElementById('app-container');
+        const isHidden = (typeof forceState === 'boolean')
+          ? appContainer.classList.toggle('hud-hidden', forceState)
+          : appContainer.classList.toggle('hud-hidden');
+
+        const label = document.getElementById('toggle-hud-label');
+        const toggleBtn = document.getElementById('btn-toggle-hud');
+        if (isHidden) {
+          if (label) label.textContent = 'Show Controls';
+          if (toggleBtn) toggleBtn.classList.add('active');
+        } else {
+          if (label) label.textContent = 'Hide Controls';
+          if (toggleBtn) toggleBtn.classList.remove('active');
+        }
+
+        // Smoothly adapt 3D camera & canvas to size changes during transition
+        onWindowResize();
+        setTimeout(onWindowResize, 60);
+        setTimeout(onWindowResize, 180);
+        setTimeout(onWindowResize, 360);
       }
-    });
 
-    uploadZone.addEventListener('dragover', (e) => {
-      e.preventDefault();
-      uploadZone.classList.add('dragover');
-    });
-    uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('dragover'));
-    uploadZone.addEventListener('drop', (e) => {
-      e.preventDefault();
-      uploadZone.classList.remove('dragover');
-      if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-        processUploadedFile(e.dataTransfer.files[0]);
+      const btnToggleHud = document.getElementById('btn-toggle-hud');
+      if (btnToggleHud) btnToggleHud.addEventListener('click', () => toggleHUD());
+
+      const btnSidebarCollapse = document.getElementById('btn-sidebar-collapse');
+      if (btnSidebarCollapse) btnSidebarCollapse.addEventListener('click', () => toggleHUD(true));
+
+      const mobileSheetHandle = document.getElementById('mobile-sheet-handle');
+      if (mobileSheetHandle) mobileSheetHandle.addEventListener('click', () => toggleHUD(true));
+
+      const btnFloatingShowHud = document.getElementById('btn-floating-show-hud');
+      if (btnFloatingShowHud) btnFloatingShowHud.addEventListener('click', () => toggleHUD(false));
+
+      // Image Upload & Scaling
+      const uploadZone = document.getElementById('upload-zone');
+      const fileInput = document.getElementById('file-input');
+
+      uploadZone.addEventListener('click', () => {
+        // Check if running inside Flutter Mobile WebView
+        if (window.FlutterBridge && typeof window.FlutterBridge.postMessage === 'function') {
+          window.FlutterBridge.postMessage('PICK_IMAGE');
+          return;
+        }
+        fileInput.click();
+      });
+
+      fileInput.addEventListener('change', (e) => {
+        if (e.target.files && e.target.files[0]) {
+          processUploadedFile(e.target.files[0]);
+        }
+      });
+
+      uploadZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        uploadZone.classList.add('dragover');
+      });
+      uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('dragover'));
+      uploadZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        uploadZone.classList.remove('dragover');
+        if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+          processUploadedFile(e.dataTransfer.files[0]);
+        }
+      });
+
+      function processUploadedFile(file) {
+        const reader = new FileReader();
+        reader.onload = (evt) => {
+          window.loadCustomImageFromUrl(evt.target.result, file.name);
+        };
+        reader.readAsDataURL(file);
       }
-    });
 
-    function processUploadedFile(file) {
-      const reader = new FileReader();
-      reader.onload = (evt) => {
+      window.loadCustomImageFromUrl = function (dataUrl, fileName = 'custom-image.png') {
         const img = new Image();
-        img.src = evt.target.result;
+        img.crossOrigin = 'anonymous';
         img.onload = () => {
           state.imageElement = img;
           state.hasImage = true;
-          document.getElementById('image-status-text').textContent = 'Loaded: ' + file.name;
+          const statusEl = document.getElementById('image-status-text');
+          if (statusEl) statusEl.textContent = 'Loaded: ' + fileName;
           updateImageDecal();
         };
+        img.onerror = (err) => {
+          console.error('Failed to load image from dataUrl:', err);
+        };
+        img.src = dataUrl;
       };
-      reader.readAsDataURL(file);
-    }
 
-    document.getElementById('btn-clear-image').addEventListener('click', () => {
-      state.hasImage = false;
-      state.imageElement = null;
-      document.getElementById('image-status-text').textContent = 'No artwork selected';
-      updateImageDecal();
-    });
-
-    const imageScaleRange = document.getElementById('image-scale-range');
-    const imageScaleVal = document.getElementById('image-scale-val');
-    imageScaleRange.addEventListener('input', (e) => {
-      state.imageScale = parseInt(e.target.value) / 100;
-      imageScaleVal.textContent = e.target.value + '%';
-      updateImageDecal();
-    });
-
-    const imageRotRange = document.getElementById('image-rot-range');
-    const imageRotVal = document.getElementById('image-rot-val');
-    imageRotRange.addEventListener('input', (e) => {
-      state.imageRotation = parseInt(e.target.value);
-      imageRotVal.textContent = e.target.value + '°';
-      updateImageDecal();
-    });
-
-    // Image Preset Placement
-    document.querySelectorAll('[data-img-pos]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('[data-img-pos]').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        state.imagePositionKey = btn.dataset.imgPos;
-
-        const landmark = PRESET_LANDMARKS[state.imagePositionKey];
-        if (landmark) {
-          state.imagePos = landmark.pos.clone();
-          state.imageNorm = landmark.norm.clone();
-          if (landmark.camView) setCameraView(landmark.camView);
+      window.addEventListener('message', (event) => {
+        if (event.data && (event.data.type === 'SET_IMAGE' || event.data.action === 'PICK_IMAGE_RESULT') && event.data.dataUrl) {
+          window.loadCustomImageFromUrl(event.data.dataUrl, event.data.fileName || 'custom-image.png');
         }
+      });
+
+      document.getElementById('btn-clear-image').addEventListener('click', () => {
+        state.hasImage = false;
+        state.imageElement = null;
+        document.getElementById('image-status-text').textContent = 'No artwork selected';
         updateImageDecal();
       });
+
+      const imageScaleRange = document.getElementById('image-scale-range');
+      const imageScaleVal = document.getElementById('image-scale-val');
+      imageScaleRange.addEventListener('input', (e) => {
+        state.imageScale = parseInt(e.target.value) / 100;
+        imageScaleVal.textContent = e.target.value + '%';
+        updateImageDecal();
+      });
+
+      const imageRotRange = document.getElementById('image-rot-range');
+      const imageRotVal = document.getElementById('image-rot-val');
+      imageRotRange.addEventListener('input', (e) => {
+        state.imageRotation = parseInt(e.target.value);
+        imageRotVal.textContent = e.target.value + '°';
+        updateImageDecal();
+      });
+
+      // Image Preset Placement
+      document.querySelectorAll('[data-img-pos]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('[data-img-pos]').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          state.imagePositionKey = btn.dataset.imgPos;
+
+          const landmark = PRESET_LANDMARKS[state.imagePositionKey];
+          if (landmark) {
+            state.imagePos = landmark.pos.clone();
+            state.imageNorm = landmark.norm.clone();
+            if (landmark.camView) setCameraView(landmark.camView);
+          }
+          updateImageDecal();
+        });
+      });
+
+      // Camera Navigation Buttons
+      document.getElementById('btn-cam-front').addEventListener('click', () => setCameraView('front'));
+      document.getElementById('btn-cam-back').addEventListener('click', () => setCameraView('back'));
+      document.getElementById('btn-cam-left-sleeve').addEventListener('click', () => setCameraView('left-sleeve'));
+      document.getElementById('btn-cam-right-sleeve').addEventListener('click', () => setCameraView('right-sleeve'));
+      document.getElementById('btn-cam-reset').addEventListener('click', () => setCameraView('reset'));
+
+      // Auto-Rotate
+      const autoRotBtn = document.getElementById('btn-auto-rotate');
+      autoRotBtn.addEventListener('click', () => {
+        state.autoRotate = !state.autoRotate;
+        autoRotBtn.classList.toggle('active', state.autoRotate);
+      });
+
+      // Revert Back / Reset
+      document.getElementById('btn-reset-all').addEventListener('click', () => {
+        if (confirm('Revert all changes back to initial clean state?')) {
+          revertBack();
+        }
+      });
+
+      // Download Mockup PNG
+      document.getElementById('btn-download-mockup').addEventListener('click', () => {
+        renderer.render(scene, camera);
+        const dataUrl = renderer.domElement.toDataURL('image/png');
+        const link = document.createElement('a');
+        link.download = `tshirt-mockup-${Date.now()}.png`;
+        link.href = dataUrl;
+        link.click();
+      });
+    }
+
+    function revertBack() {
+      state.shirtColor = '#FFFFFF';
+      state.text = '';
+      state.fontSize = 58;
+      state.textColor = '#111111';
+      state.textArc = 0;
+      state.textSpacing = 2;
+      state.textRotation = 0;
+      state.textPositionKey = 'front-chest';
+      state.textPos = PRESET_LANDMARKS['front-chest'].pos.clone();
+      state.textNorm = PRESET_LANDMARKS['front-chest'].norm.clone();
+
+      // Reset Image to completely empty (no artwork selected)
+      state.hasImage = false;
+      state.imageElement = null;
+      state.imageScale = 1.0;
+      state.imageRotation = 0;
+      state.imagePositionKey = 'front-chest';
+      state.imagePos = PRESET_LANDMARKS['front-chest'].pos.clone();
+      state.imageNorm = PRESET_LANDMARKS['front-chest'].norm.clone();
+      state.autoRotate = false;
+
+      // Reset Form Fields
+      document.getElementById('text-input').value = '';
+      document.getElementById('custom-color-picker').value = '#ffffff';
+      document.getElementById('custom-color-hex').value = '#FFFFFF';
+      document.getElementById('text-size-range').value = 58;
+      document.getElementById('text-size-val').textContent = '58px';
+      document.getElementById('text-arc-range').value = 0;
+      document.getElementById('text-arc-val').textContent = '0%';
+      document.getElementById('text-spacing-range').value = 2;
+      document.getElementById('text-spacing-val').textContent = '2px';
+      document.getElementById('text-rot-range').value = 0;
+      document.getElementById('text-rot-val').textContent = '0°';
+      document.getElementById('image-scale-range').value = 100;
+      document.getElementById('image-scale-val').textContent = '100%';
+      document.getElementById('image-rot-range').value = 0;
+      document.getElementById('image-rot-val').textContent = '0°';
+      document.getElementById('image-status-text').textContent = 'No artwork selected';
+      document.getElementById('btn-auto-rotate').classList.remove('active');
+
+      // Reset Placements
+      document.querySelectorAll('[data-text-pos]').forEach(b => b.classList.remove('active'));
+      document.querySelector('[data-text-pos="front-chest"]').classList.add('active');
+      document.querySelectorAll('[data-img-pos]').forEach(b => b.classList.remove('active'));
+      document.querySelector('[data-img-pos="front-chest"]').classList.add('active');
+
+      // Switch back to orbit mode
+      document.getElementById('mode-orbit').click();
+
+      populateColorSwatches();
+      updateShirtColor();
+      updateTextDecal();
+      updateImageDecal();
+      setCameraView('front');
+    }
+
+    // --- WINDOW LOAD BOOTSTRAP ---
+    window.addEventListener('DOMContentLoaded', () => {
+      init3D();
+      populateColorSwatches();
+      populateSampleArt();
+      setupEventListeners();
     });
-
-    // Camera Navigation Buttons
-    document.getElementById('btn-cam-front').addEventListener('click', () => setCameraView('front'));
-    document.getElementById('btn-cam-back').addEventListener('click', () => setCameraView('back'));
-    document.getElementById('btn-cam-left-sleeve').addEventListener('click', () => setCameraView('left-sleeve'));
-    document.getElementById('btn-cam-right-sleeve').addEventListener('click', () => setCameraView('right-sleeve'));
-    document.getElementById('btn-cam-reset').addEventListener('click', () => setCameraView('reset'));
-
-    // Auto-Rotate
-    const autoRotBtn = document.getElementById('btn-auto-rotate');
-    autoRotBtn.addEventListener('click', () => {
-      state.autoRotate = !state.autoRotate;
-      autoRotBtn.classList.toggle('active', state.autoRotate);
-    });
-
-    // Revert Back / Reset
-    document.getElementById('btn-reset-all').addEventListener('click', () => {
-      if (confirm('Revert all changes back to initial clean state?')) {
-        revertBack();
-      }
-    });
-
-    // Download Mockup PNG
-    document.getElementById('btn-download-mockup').addEventListener('click', () => {
-      renderer.render(scene, camera);
-      const dataUrl = renderer.domElement.toDataURL('image/png');
-      const link = document.createElement('a');
-      link.download = `tshirt-mockup-${Date.now()}.png`;
-      link.href = dataUrl;
-      link.click();
-    });
-  }
-
-  function revertBack() {
-    state.shirtColor = '#FFFFFF';
-    state.text = '';
-    state.fontSize = 58;
-    state.textColor = '#111111';
-    state.textArc = 0;
-    state.textSpacing = 2;
-    state.textRotation = 0;
-    state.textPositionKey = 'front-chest';
-    state.textPos = PRESET_LANDMARKS['front-chest'].pos.clone();
-    state.textNorm = PRESET_LANDMARKS['front-chest'].norm.clone();
-
-    // Reset Image to completely empty (no artwork selected)
-    state.hasImage = false;
-    state.imageElement = null;
-    state.imageScale = 1.0;
-    state.imageRotation = 0;
-    state.imagePositionKey = 'front-chest';
-    state.imagePos = PRESET_LANDMARKS['front-chest'].pos.clone();
-    state.imageNorm = PRESET_LANDMARKS['front-chest'].norm.clone();
-    state.autoRotate = false;
-
-    // Reset Form Fields
-    document.getElementById('text-input').value = '';
-    document.getElementById('custom-color-picker').value = '#ffffff';
-    document.getElementById('custom-color-hex').value = '#FFFFFF';
-    document.getElementById('text-size-range').value = 58;
-    document.getElementById('text-size-val').textContent = '58px';
-    document.getElementById('text-arc-range').value = 0;
-    document.getElementById('text-arc-val').textContent = '0%';
-    document.getElementById('text-spacing-range').value = 2;
-    document.getElementById('text-spacing-val').textContent = '2px';
-    document.getElementById('text-rot-range').value = 0;
-    document.getElementById('text-rot-val').textContent = '0°';
-    document.getElementById('image-scale-range').value = 100;
-    document.getElementById('image-scale-val').textContent = '100%';
-    document.getElementById('image-rot-range').value = 0;
-    document.getElementById('image-rot-val').textContent = '0°';
-    document.getElementById('image-status-text').textContent = 'No artwork selected';
-    document.getElementById('btn-auto-rotate').classList.remove('active');
-
-    // Reset Placements
-    document.querySelectorAll('[data-text-pos]').forEach(b => b.classList.remove('active'));
-    document.querySelector('[data-text-pos="front-chest"]').classList.add('active');
-    document.querySelectorAll('[data-img-pos]').forEach(b => b.classList.remove('active'));
-    document.querySelector('[data-img-pos="front-chest"]').classList.add('active');
-
-    // Switch back to orbit mode
-    document.getElementById('mode-orbit').click();
-
-    populateColorSwatches();
-    updateShirtColor();
-    updateTextDecal();
-    updateImageDecal();
-    setCameraView('front');
-  }
-
-  // --- WINDOW LOAD BOOTSTRAP ---
-  window.addEventListener('DOMContentLoaded', () => {
-    init3D();
-    populateColorSwatches();
-    populateSampleArt();
-    setupEventListeners();
-  });
-</script>
+  </script>
 
 </body>
+
 </html>
