@@ -101,11 +101,18 @@ class StudioTab extends StatelessWidget {
           const SizedBox(height: 20),
 
           // Section: 360 Auto Rotate
-          _buildSectionHeader('360° Interactive Turntable'),
+          Obx(
+            () => _buildSectionHeader(
+              controller.is2DView.value
+                  ? 'Front / Back Auto Preview'
+                  : '360° Interactive Turntable',
+            ),
+          ),
           const SizedBox(height: 8),
 
           Obx(() {
             final isRotating = controller.autoRotate.value;
+            final is2D = controller.is2DView.value;
             return InkWell(
               onTap: () => controller.toggleAutoRotate(),
               borderRadius: BorderRadius.circular(10),
@@ -137,7 +144,7 @@ class StudioTab extends StatelessWidget {
                     const SizedBox(width: 10),
                     Expanded(
                       child: Text(
-                        'Continuous 360° Rotation',
+                        is2D ? 'Cycle Front and Back' : 'Continuous 360° Rotation',
                         style: TextStyle(
                           fontSize: 13,
                           fontWeight: isRotating

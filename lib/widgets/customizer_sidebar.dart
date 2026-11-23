@@ -179,7 +179,7 @@ class CustomizerSidebar extends StatelessWidget {
               height: 44,
               child: ElevatedButton.icon(
                 onPressed: () {
-                  controller.onSend3DCommand?.call({'type': 'EXPORT_PNG'});
+                  controller.exportMockup();
                 },
                 icon: const Icon(Icons.download, size: 18),
                 label: const Text('Download Mockup PNG', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),

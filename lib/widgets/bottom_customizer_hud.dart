@@ -90,7 +90,7 @@ class BottomCustomizerHud extends StatelessWidget {
                 // Quick Export PNG Button
                 IconButton(
                   onPressed: () {
-                    controller.onSend3DCommand?.call({'type': 'EXPORT_PNG'});
+                    controller.exportMockup();
                   },
                   tooltip: 'Download Mockup PNG',
                   icon: const Icon(Icons.download, size: 18, color: Color(0xFFA5B4FC)),

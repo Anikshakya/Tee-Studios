@@ -89,7 +89,9 @@ class TshirtController extends GetxController {
   final fabricRoughness = 0.88.obs;
   final interactionMode = 'orbit'.obs; // 'orbit' or 'drag'
   final isHudVisible = false.obs; // Starts collapsed, bottom nav unselected
+  final is2DView = false.obs;
   final activeTab = 0.obs; // 0: Apparel, 1: Layers, 2: Edit Layer, 3: Studio
+  final cameraView = 'front'.obs;
   final lightingPreset = 'studio'.obs;
   final autoRotate = false.obs;
 
@@ -103,6 +105,7 @@ class TshirtController extends GetxController {
 
   // Communication callback with 3D Viewport
   void Function(Map<String, dynamic> command)? onSend3DCommand;
+  VoidCallback? onExport2D;
 
   TshirtLayer? get activeLayer {
     if (selectedLayerId.value.isEmpty) return null;
@@ -114,6 +117,15 @@ class TshirtController extends GetxController {
   }
 
   // --- ACTIONS ---
+
+  void setViewerMode(bool use2D) {
+    if (is2DView.value == use2D) return;
+    is2DView.value = use2D;
+    if (!use2D) {
+      syncStateTo3D();
+      notify3DResize();
+    }
+  }
 
   void setShirtColor(String hex) {
     shirtColor.value = hex;
@@ -138,7 +150,7 @@ class TshirtController extends GetxController {
 
   void setInteractionMode(String mode) {
     interactionMode.value = mode;
-    onSend3DCommand?.call({
+    _send3DCommand({
       'type': 'SET_INTERACTION_MODE',
       'mode': mode,
     });
@@ -160,15 +172,15 @@ class TshirtController extends GetxController {
   }
 
   void notify3DResize() {
-    onSend3DCommand?.call({'type': 'RESIZE'});
+    _send3DCommand({'type': 'RESIZE'});
     Future.delayed(const Duration(milliseconds: 80), () {
-      onSend3DCommand?.call({'type': 'RESIZE'});
+      _send3DCommand({'type': 'RESIZE'});
     });
     Future.delayed(const Duration(milliseconds: 300), () {
-      onSend3DCommand?.call({'type': 'RESIZE'});
+      _send3DCommand({'type': 'RESIZE'});
     });
     Future.delayed(const Duration(milliseconds: 700), () {
-      onSend3DCommand?.call({'type': 'RESIZE'});
+      _send3DCommand({'type': 'RESIZE'});
     });
   }
 
@@ -418,10 +430,22 @@ class TshirtController extends GetxController {
     }
   }
 
+  void updateLayerPosition(String id, Vector3D pos, Vector3D norm) {
+    final layer = layers.firstWhereOrNull((item) => item.id == id);
+    if (layer == null) return;
+
+    layer.pos = pos;
+    layer.norm = norm;
+    layer.positionKey = 'custom';
+    layers.refresh();
+    syncStateTo3D();
+  }
+
   // --- STUDIO & ENVIRONMENT ---
 
   void setCameraView(String view) {
-    onSend3DCommand?.call({
+    cameraView.value = view == 'reset' ? 'front' : view;
+    _send3DCommand({
       'type': 'SET_CAMERA',
       'view': view,
     });
@@ -429,7 +453,7 @@ class TshirtController extends GetxController {
 
   void setLighting(String preset) {
     lightingPreset.value = preset;
-    onSend3DCommand?.call({
+    _send3DCommand({
       'type': 'SET_LIGHTING',
       'preset': preset,
     });
@@ -437,7 +461,7 @@ class TshirtController extends GetxController {
 
   void toggleAutoRotate() {
     autoRotate.value = !autoRotate.value;
-    onSend3DCommand?.call({
+    _send3DCommand({
       'type': 'SET_AUTO_ROTATE',
       'enabled': autoRotate.value,
     });
@@ -445,10 +469,18 @@ class TshirtController extends GetxController {
 
   void loadModel(String path) {
     selectedModel.value = path;
-    onSend3DCommand?.call({
+    _send3DCommand({
       'type': 'LOAD_MODEL',
       'modelPath': path,
     });
+  }
+
+  void exportMockup() {
+    if (is2DView.value) {
+      onExport2D?.call();
+      return;
+    }
+    _send3DCommand({'type': 'EXPORT_PNG'});
   }
 
   void resetAll() {
@@ -468,7 +500,7 @@ class TshirtController extends GetxController {
   // --- BIDIRECTIONAL SYNC TO 3D ---
 
   void syncStateTo3D() {
-    onSend3DCommand?.call({
+    _send3DCommand({
       'type': 'SYNC_STATE',
       'shirtColor': shirtColor.value,
       'activeFabric': activeFabric.value,
@@ -478,6 +510,12 @@ class TshirtController extends GetxController {
       'lighting': lightingPreset.value,
       'layers': layers.map((l) => l.toJson()).toList(),
     });
+  }
+
+  void _send3DCommand(Map<String, dynamic> command) {
+    if (!is2DView.value) {
+      onSend3DCommand?.call(command);
+    }
   }
 
   void handleMessageFrom3D(Map<String, dynamic> data) {
