@@ -9,6 +9,6 @@ class TshirtViewer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return platform_impl.buildTshirtViewerWidget();
+    return platform_impl.buildTshirtViewerWidget(key: key);
   }
 }
