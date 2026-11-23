@@ -35,10 +35,6 @@ class MockupStudioHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: SafeArea(
-        child: TshirtViewer(),
-      ),
-    );
+    return const Scaffold(body: SafeArea(child: TshirtViewer()));
   }
 }
