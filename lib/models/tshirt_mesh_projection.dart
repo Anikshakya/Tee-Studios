@@ -326,7 +326,7 @@ class TshirtMeshProjection {
         textureCoordinates[coordinateIndex] =
             _textureCoordinates[vertex * 2] * texture.width;
         textureCoordinates[coordinateIndex + 1] =
-            (1 - _textureCoordinates[vertex * 2 + 1]) * texture.height;
+            _textureCoordinates[vertex * 2 + 1] * texture.height;
         coordinateIndex += 2;
       }
     }
