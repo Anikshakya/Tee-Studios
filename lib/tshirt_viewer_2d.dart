@@ -23,6 +23,7 @@ class _TshirtViewer2DState extends State<TshirtViewer2D>
   static Future<TshirtMeshProjection>? _sharedMesh;
 
   final _boundaryKey = GlobalKey();
+  final _zoomController = TransformationController();
   late final TshirtController _controller;
   late final AnimationController _rotationController;
   late final Worker _autoRotateWorker;
@@ -54,6 +55,7 @@ class _TshirtViewer2DState extends State<TshirtViewer2D>
   void dispose() {
     _autoRotateWorker.dispose();
     _rotationController.dispose();
+    _zoomController.dispose();
     _controller.onExport2D = null;
     super.dispose();
   }
@@ -240,42 +242,50 @@ class _TshirtViewer2DState extends State<TshirtViewer2D>
                 );
                 final activeLayer = _controller.activeLayer;
 
-                return GestureDetector(
-                  behavior: HitTestBehavior.opaque,
-                  onPanUpdate: interactionMode == 'drag' && activeLayer != null
-                      ? (details) => _moveLayerByDelta(
-                          activeLayer,
-                          details.delta,
-                          shirtRect,
-                          projection,
-                          view,
-                        )
-                      : null,
-                  child: Stack(
-                    fit: StackFit.expand,
-                    clipBehavior: Clip.hardEdge,
-                    children: [
-                      CustomPaint(
-                        painter: Tshirt2DPainter(
-                          model: model,
-                          projection: projection,
-                          shirtColor: shirtColor,
-                          fabric: fabric,
-                          roughness: roughness,
-                          lighting: lighting,
-                          closeup: view == 'closeup',
+                return InteractiveViewer(
+                  transformationController: _zoomController,
+                  boundaryMargin: const EdgeInsets.all(120),
+                  minScale: 0.8,
+                  maxScale: 5,
+                  panEnabled: interactionMode != 'drag',
+                  scaleEnabled: true,
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onPanUpdate: interactionMode == 'drag' && activeLayer != null
+                        ? (details) => _moveLayerByDelta(
+                            activeLayer,
+                            details.delta,
+                            shirtRect,
+                            projection,
+                            view,
+                          )
+                        : null,
+                    child: Stack(
+                      fit: StackFit.expand,
+                      clipBehavior: Clip.hardEdge,
+                      children: [
+                        CustomPaint(
+                          painter: Tshirt2DPainter(
+                            model: model,
+                            projection: projection,
+                            shirtColor: shirtColor,
+                            fabric: fabric,
+                            roughness: roughness,
+                            lighting: lighting,
+                            closeup: view == 'closeup',
+                          ),
                         ),
-                      ),
-                      for (final layer in visibleLayers)
-                        _buildLayer(
-                          layer: layer,
-                          shirtRect: shirtRect,
-                          projection: projection,
-                          selected: layer.id == selectedLayerId,
-                          interactionMode: interactionMode,
-                          view: view,
-                        ),
-                    ],
+                        for (final layer in visibleLayers)
+                          _buildLayer(
+                            layer: layer,
+                            shirtRect: shirtRect,
+                            projection: projection,
+                            selected: layer.id == selectedLayerId,
+                            interactionMode: interactionMode,
+                            view: view,
+                          ),
+                      ],
+                    ),
                   ),
                 );
               },
@@ -457,13 +467,20 @@ class Tshirt2DPainter extends CustomPainter {
       BlendMode.srcOver,
       Paint()
         ..shader = model.textureShader
-        ..colorFilter = ColorFilter.mode(
-          shirtColor.isEmpty ? Colors.white : _parseColor(shirtColor),
-          BlendMode.modulate,
-        )
         ..filterQuality = FilterQuality.high
         ..isAntiAlias = true,
     );
+    if (shirtColor.isNotEmpty) {
+      final tint = _parseColor(shirtColor);
+      canvas.drawVertices(
+        projection.vertices,
+        BlendMode.srcOver,
+        Paint()
+          ..color = tint
+          ..blendMode = BlendMode.srcATop
+          ..isAntiAlias = true,
+      );
+    }
     canvas.restore();
 
     _paintFabric(canvas, destination, shirtColor);
