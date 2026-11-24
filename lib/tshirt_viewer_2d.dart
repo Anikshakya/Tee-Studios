@@ -1,7 +1,5 @@
-import 'dart:convert';
 import 'dart:math' as math;
 import 'dart:typed_data';
-import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -10,6 +8,7 @@ import 'package:get/get.dart';
 import 'controllers/tshirt_controller.dart';
 import 'models/tshirt_layer.dart';
 import 'models/tshirt_mesh_projection.dart';
+import 'services/image_service.dart';
 
 class TshirtViewer2D extends StatefulWidget {
   const TshirtViewer2D({super.key});
@@ -24,6 +23,7 @@ class _TshirtViewer2DState extends State<TshirtViewer2D>
 
   final _boundaryKey = GlobalKey();
   final _zoomController = TransformationController();
+  final ImageService _imageService = ImageService();
   late final TshirtController _controller;
   late final AnimationController _rotationController;
   late final Worker _autoRotateWorker;
@@ -65,15 +65,8 @@ class _TshirtViewer2DState extends State<TshirtViewer2D>
     final renderObject = _boundaryKey.currentContext?.findRenderObject();
     if (renderObject is! RenderRepaintBoundary) return;
 
-    final image = await renderObject.toImage(pixelRatio: 2);
-    final data = await image.toByteData(format: ui.ImageByteFormat.png);
-    image.dispose();
-    if (data == null || !mounted) return;
-
-    final bytes = data.buffer.asUint8List(
-      data.offsetInBytes,
-      data.lengthInBytes,
-    );
+    final bytes = await _imageService.capturePng(renderObject, pixelRatio: 2);
+    if (bytes == null || !mounted) return;
     await showDialog<void>(
       context: context,
       builder: (context) => Dialog(
@@ -616,6 +609,7 @@ class Tshirt2DPainter extends CustomPainter {
 
 class _LayerImage extends StatelessWidget {
   final TshirtLayer layer;
+  static final ImageService _imageService = ImageService();
 
   const _LayerImage({required this.layer});
 
@@ -623,23 +617,13 @@ class _LayerImage extends StatelessWidget {
   Widget build(BuildContext context) {
     final source = layer.imageSrc;
     if (source.startsWith('data:')) {
-      final separator = source.indexOf(',');
-      if (separator < 0) return _imageError();
-
-      try {
-        final metadata = source.substring(0, separator);
-        final payload = source.substring(separator + 1);
-        final bytes = metadata.contains(';base64')
-            ? base64Decode(payload)
-            : Uint8List.fromList(utf8.encode(Uri.decodeComponent(payload)));
-        return Image.memory(
-          bytes,
-          fit: BoxFit.contain,
-          errorBuilder: (_, _, _) => _imageError(),
-        );
-      } on FormatException {
-        return _imageError();
-      }
+      final bytes = _imageService.dataUrlBytes(source);
+      if (bytes == null) return _imageError();
+      return Image.memory(
+        bytes,
+        fit: BoxFit.contain,
+        errorBuilder: (_, _, _) => _imageError(),
+      );
     }
 
     if (source.startsWith('assets/')) {

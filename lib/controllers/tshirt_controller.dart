@@ -1,8 +1,7 @@
-import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 import '../models/tshirt_layer.dart';
+import '../services/image_service.dart';
 
 class LandmarkInfo {
   final String key;
@@ -22,6 +21,7 @@ class LandmarkInfo {
 
 class TshirtController extends GetxController {
   static TshirtController get to => Get.find<TshirtController>();
+  final ImageService _imageService = ImageService();
 
   // 3D Landmarks
   static const Map<String, LandmarkInfo> landmarks = {
@@ -236,23 +236,9 @@ class TshirtController extends GetxController {
   }
 
   Future<void> pickImageForNewLayer() async {
-    try {
-      final picker = ImagePicker();
-      final file = await picker.pickImage(
-        source: ImageSource.gallery,
-        maxWidth: 2048,
-        maxHeight: 2048,
-        imageQuality: 95,
-      );
-      if (file != null) {
-        final bytes = await file.readAsBytes();
-        final base64Data = base64Encode(bytes);
-        final mime = file.mimeType ?? 'image/png';
-        final dataUrl = 'data:$mime;base64,$base64Data';
-        addImageLayer(dataUrl, file.name);
-      }
-    } catch (e) {
-      debugPrint('Error picking image: $e');
+    final image = await _imageService.pickFromGallery();
+    if (image != null) {
+      addImageLayer(image.dataUrl, image.name);
     }
   }
 
@@ -260,25 +246,12 @@ class TshirtController extends GetxController {
     final layer = activeLayer;
     if (layer == null || layer.type != LayerType.image) return;
 
-    try {
-      final picker = ImagePicker();
-      final file = await picker.pickImage(
-        source: ImageSource.gallery,
-        maxWidth: 2048,
-        maxHeight: 2048,
-        imageQuality: 95,
-      );
-      if (file != null) {
-        final bytes = await file.readAsBytes();
-        final base64Data = base64Encode(bytes);
-        final mime = file.mimeType ?? 'image/png';
-        layer.imageSrc = 'data:$mime;base64,$base64Data';
-        layer.name = file.name;
-        layers.refresh();
-        syncStateTo3D();
-      }
-    } catch (e) {
-      debugPrint('Error replacing image: $e');
+    final image = await _imageService.pickFromGallery();
+    if (image != null) {
+      layer.imageSrc = image.dataUrl;
+      layer.name = image.name;
+      layers.refresh();
+      syncStateTo3D();
     }
   }
 
