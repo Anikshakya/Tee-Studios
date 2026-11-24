@@ -7,8 +7,8 @@ import 'package:get/get.dart';
 import 'controllers/tshirt_controller.dart';
 import 'models/tshirt_layer.dart';
 import 'models/tshirt_mesh_projection.dart';
-import 'services/download_service.dart';
 import 'services/image_service.dart';
+import 'widgets/export_preview_dialog.dart';
 
 class TshirtViewer2D extends StatefulWidget {
   const TshirtViewer2D({super.key});
@@ -23,7 +23,6 @@ class _TshirtViewer2DState extends State<TshirtViewer2D>
 
   final _boundaryKey = GlobalKey();
   final _zoomController = TransformationController();
-  final DownloadService _downloadService = DownloadService();
   final ImageService _imageService = ImageService();
   late final TshirtController _controller;
   late final AnimationController _rotationController;
@@ -68,68 +67,10 @@ class _TshirtViewer2DState extends State<TshirtViewer2D>
 
     final bytes = await _imageService.capturePng(renderObject, pixelRatio: 2);
     if (bytes == null || !mounted) return;
-    await showDialog<void>(
+    await showExportPreviewDialog(
       context: context,
-      builder: (context) => Dialog(
-        backgroundColor: const Color(0xFF14171F),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Text(
-                '2D Mockup PNG',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 12),
-              ConstrainedBox(
-                constraints: const BoxConstraints(
-                  maxWidth: 600,
-                  maxHeight: 600,
-                ),
-                child: Image.memory(bytes, fit: BoxFit.contain),
-              ),
-              const SizedBox(height: 8),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  TextButton(
-                    onPressed: () => Navigator.of(context).pop(),
-                    child: const Text('Close'),
-                  ),
-                  const SizedBox(width: 8),
-                  FilledButton.icon(
-                    onPressed: () async {
-                      await _downloadService.downloadPng(bytes);
-                    },
-                    icon: const Icon(Icons.download),
-                    label: const Text('Download'),
-                  ),
-                  const SizedBox(width: 8),
-                  FilledButton.icon(
-                    onPressed: () async {
-                      await _downloadService.savePngToDevice(bytes);
-                    },
-                    icon: const Icon(Icons.save_alt),
-                    label: const Text('Save to Local'),
-                  ),
-                  const SizedBox(width: 8),
-                  FilledButton.icon(
-                    onPressed: () async {
-                      await _downloadService.sharePng(bytes);
-                    },
-                    icon: const Icon(Icons.share),
-                    label: const Text('Share'),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
+      bytes: bytes,
+      title: '2D Mockup PNG',
     );
   }
 

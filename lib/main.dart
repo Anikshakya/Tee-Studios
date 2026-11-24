@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:pointer_interceptor/pointer_interceptor.dart';
 import 'controllers/tshirt_controller.dart';
 import 'tshirt_viewer.dart';
+import 'widgets/export_preview_dialog.dart';
 import 'widgets/bottom_nav_tab_bar.dart';
 import 'widgets/hud_content_panel.dart';
 import 'widgets/viewport_camera_bar.dart';
@@ -52,6 +53,13 @@ class MockupStudioHomePage extends StatelessWidget {
     final controller = Get.isRegistered<TshirtController>()
         ? TshirtController.to
         : Get.put(TshirtController());
+    controller.onExportPreview ??= (bytes, title) {
+      showExportPreviewDialog(
+        context: context,
+        bytes: bytes,
+        title: title,
+      );
+    };
 
     return Scaffold(
       backgroundColor: const Color(0xFF0E1015),

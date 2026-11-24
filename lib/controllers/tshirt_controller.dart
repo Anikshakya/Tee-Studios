@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import '../models/tshirt_layer.dart';
@@ -108,6 +110,7 @@ class TshirtController extends GetxController {
   // Communication callback with 3D Viewport
   void Function(Map<String, dynamic> command)? onSend3DCommand;
   VoidCallback? onExport2D;
+  void Function(Uint8List bytes, String title)? onExportPreview;
 
   TshirtLayer? get activeLayer {
     if (selectedLayerId.value.isEmpty) return null;
@@ -509,11 +512,7 @@ class TshirtController extends GetxController {
       if (dataUrl == null) return;
       final bytes = _imageService.dataUrlBytes(dataUrl);
       if (bytes != null) {
-        if (kIsWeb) {
-          _downloadService.downloadPng(bytes);
-        } else {
-          _downloadService.savePngToDevice(bytes);
-        }
+        onExportPreview?.call(bytes, '3D Mockup PNG');
       }
     } else if (type == 'LAYER_MOVED') {
       final layerId = data['layerId'] as String?;
