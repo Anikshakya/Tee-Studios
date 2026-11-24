@@ -210,7 +210,7 @@ class TshirtController extends GetxController {
       pos: landmark.pos,
       norm: landmark.norm,
       textColor: '#111111',
-      fontSize: 100,
+      fontSize: 140,
     );
     layers.add(layer);
     selectedLayerId.value = layer.id;

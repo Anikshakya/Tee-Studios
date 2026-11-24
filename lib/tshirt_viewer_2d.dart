@@ -383,7 +383,7 @@ class Tshirt2DLayout {
     double shirtWidth,
     double projectedMeshWidth,
   ) {
-    final fontRatio = layer.fontSize / 100;
+    final fontRatio = layer.fontSize / 140;
     final characterRatio = math
         .pow(math.max(1, layer.text.trim().length) / 8, 0.35)
         .toDouble();
