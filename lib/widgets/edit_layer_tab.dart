@@ -208,7 +208,7 @@ class EditLayerTab extends StatelessWidget {
 
               const SizedBox(height: 14),
               TextFormField(
-                key: ValueKey('font_size_${layer.id}_${layer.fontSize.round()}'),
+                key: ValueKey('font_size_${layer.id}'),
                 initialValue: layer.fontSize.round().toString(),
                 keyboardType: TextInputType.number,
                 style: const TextStyle(color: Colors.white, fontSize: 13),
