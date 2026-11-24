@@ -20,6 +20,9 @@ class _TshirtViewerMobileState extends State<TshirtViewerMobile> {
   WebViewController? _controller;
   bool _isLoading = true;
   String? _errorMessage;
+  bool _is3DReady = false;
+  final List<Map<String, dynamic>> _pending3DCommands =
+      <Map<String, dynamic>>[];
 
   @override
   void initState() {
@@ -42,10 +45,16 @@ class _TshirtViewerMobileState extends State<TshirtViewerMobile> {
             // Once the page is fully loaded, force a resize so Three.js
             // matches the actual WebView dimensions (not window.innerWidth from iframe)
             Future.delayed(const Duration(milliseconds: 200), () {
-              wvc.runJavaScript('if(typeof onWindowResize==="function") onWindowResize();');
+              _runJavaScriptSafely(
+                wvc,
+                'if(typeof onWindowResize==="function") onWindowResize();',
+              );
             });
             Future.delayed(const Duration(milliseconds: 600), () {
-              wvc.runJavaScript('if(typeof onWindowResize==="function") onWindowResize();');
+              _runJavaScriptSafely(
+                wvc,
+                'if(typeof onWindowResize==="function") onWindowResize();',
+              );
             });
           },
         ))
@@ -55,7 +64,20 @@ class _TshirtViewerMobileState extends State<TshirtViewerMobile> {
             try {
               final Map<String, dynamic> data = jsonDecode(message.message);
               if (Get.isRegistered<TshirtController>()) {
-                TshirtController.to.handleMessageFrom3D(data);
+                final controller = TshirtController.to;
+                if (data['type'] == 'READY') {
+                  if (!mounted) return;
+                  setState(() {
+                    _is3DReady = true;
+                  });
+                  for (final command in List<Map<String, dynamic>>.from(
+                    _pending3DCommands,
+                  )) {
+                    _sendCommandTo3D(wvc, command);
+                  }
+                  _pending3DCommands.clear();
+                }
+                controller.handleMessageFrom3D(data);
               }
             } catch (e) {
               debugPrint('FlutterBridge error: $e');
@@ -68,8 +90,15 @@ class _TshirtViewerMobileState extends State<TshirtViewerMobile> {
 
       if (Get.isRegistered<TshirtController>()) {
         TshirtController.to.onSend3DCommand = (command) {
-          final jsonStr = jsonEncode(command);
-          wvc.runJavaScript('window.flutterBridgeReceive(${jsonEncode(jsonStr)});');
+          if (_is3DReady) {
+            _sendCommandTo3D(wvc, command);
+          } else {
+            _pending3DCommands
+              ..removeWhere(
+                (pending) => pending['type'] == command['type'],
+              )
+              ..add(command);
+          }
         };
       }
 
@@ -134,8 +163,37 @@ class _TshirtViewerMobileState extends State<TshirtViewerMobile> {
     }
   }
 
+  void _sendCommandTo3D(WebViewController webView, Map<String, dynamic> command) {
+    final jsonStr = jsonEncode(command);
+    _runJavaScriptSafely(
+      webView,
+      'if(typeof window.flutterBridgeReceive==="function") '
+      'window.flutterBridgeReceive(${jsonEncode(jsonStr)});',
+    );
+  }
+
+  Future<void> _runJavaScriptSafely(
+    WebViewController webView,
+    String source,
+  ) async {
+    try {
+      await webView.runJavaScript(source);
+    } on PlatformException catch (e) {
+      if (!mounted) return;
+      debugPrint('3D WebView JavaScript error: ${e.code}: ${e.message}');
+    } catch (e) {
+      if (!mounted) return;
+      debugPrint('3D WebView JavaScript error: $e');
+    }
+  }
+
   @override
   void dispose() {
+    if (Get.isRegistered<TshirtController>() &&
+        TshirtController.to.onSend3DCommand != null) {
+      TshirtController.to.onSend3DCommand = null;
+    }
+    _pending3DCommands.clear();
     _server?.close(force: true);
     super.dispose();
   }

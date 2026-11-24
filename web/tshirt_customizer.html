@@ -971,7 +971,7 @@
       }
     });
 
-    window.addEventListener('DOMContentLoaded', () => {
+    function start3D() {
       init3D();
       // After DOM paint, re-sync renderer size to actual canvas element size
       requestAnimationFrame(() => {
@@ -980,7 +980,13 @@
         setTimeout(onWindowResize, 300);
         setTimeout(onWindowResize, 800);
       });
-    });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', start3D, { once: true });
+    } else {
+      start3D();
+    }
   </script>
 </body>
 
