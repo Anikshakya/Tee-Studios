@@ -14,11 +14,23 @@ class TshirtViewerWeb extends StatefulWidget {
 
 class _TshirtViewerWebState extends State<TshirtViewerWeb> {
   static web.HTMLIFrameElement? _iframe;
+  static bool _is3DReady = false;
+  static final List<Map<String, dynamic>> _pendingCommands =
+      <Map<String, dynamic>>[];
 
   @override
   void initState() {
     super.initState();
     _setupCommunication();
+  }
+
+  @override
+  void dispose() {
+    if (Get.isRegistered<TshirtController>() &&
+        TshirtController.to.onSend3DCommand != null) {
+      TshirtController.to.onSend3DCommand = null;
+    }
+    super.dispose();
   }
 
   void _setupCommunication() {
@@ -36,7 +48,17 @@ class _TshirtViewerWebState extends State<TshirtViewerWeb> {
             if (jsonStr != null) {
               final Map<String, dynamic> map = jsonDecode(jsonStr);
               if (Get.isRegistered<TshirtController>()) {
-                TshirtController.to.handleMessageFrom3D(map);
+                final controller = TshirtController.to;
+                if (map['type'] == 'READY') {
+                  _is3DReady = true;
+                  for (final command in List<Map<String, dynamic>>.from(
+                    _pendingCommands,
+                  )) {
+                    _sendCommandTo3D(command);
+                  }
+                  _pendingCommands.clear();
+                }
+                controller.handleMessageFrom3D(map);
               }
             }
           }
@@ -51,6 +73,12 @@ class _TshirtViewerWebState extends State<TshirtViewerWeb> {
   }
 
   static void _sendCommandTo3D(Map<String, dynamic> command) {
+    if (!_is3DReady) {
+      _pendingCommands
+        ..removeWhere((pending) => pending['type'] == command['type'])
+        ..add(command);
+      return;
+    }
     try {
       final jsonStr = jsonEncode(command);
       _iframe?.contentWindow?.postMessage(jsonStr.toJS, '*'.toJS);
@@ -61,17 +89,22 @@ class _TshirtViewerWebState extends State<TshirtViewerWeb> {
 
   @override
   Widget build(BuildContext context) {
-    return HtmlElementView.fromTagName(
-      tagName: 'iframe',
-      onElementCreated: (Object element) {
-        final iframe = element as web.HTMLIFrameElement
-          ..src = 'tshirt_customizer.html'
-          ..style.border = 'none'
-          ..style.width = '100%'
-          ..style.height = '100%'
-          ..allow = 'fullscreen';
-        _iframe = iframe;
-      },
+    return IgnorePointer(
+      ignoring: true,
+      child: HtmlElementView.fromTagName(
+        tagName: 'iframe',
+        onElementCreated: (Object element) {
+          _is3DReady = false;
+          final iframe = element as web.HTMLIFrameElement
+            ..src = 'tshirt_customizer.html'
+            ..style.border = 'none'
+            ..style.width = '100%'
+            ..style.height = '100%'
+            ..style.pointerEvents = 'none'
+            ..allow = 'fullscreen';
+          _iframe = iframe;
+        },
+      ),
     );
   }
 }

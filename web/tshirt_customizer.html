@@ -885,7 +885,7 @@
       const jsonStr = JSON.stringify(messageObj);
 
       if (window.parent && window.parent !== window) {
-        window.parent.postMessage(messageObj, '*');
+        window.parent.postMessage(jsonStr, '*');
       }
 
       if (window.FlutterBridge && typeof window.FlutterBridge.postMessage === 'function') {

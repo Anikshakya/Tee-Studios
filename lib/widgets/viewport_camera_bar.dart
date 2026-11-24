@@ -38,9 +38,9 @@ class ViewportCameraBar extends StatelessWidget {
   }
 
   Widget _buildCamButton(String label, VoidCallback onTap) {
-    return InkWell(
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
       onTap: onTap,
-      borderRadius: BorderRadius.circular(8),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
         margin: const EdgeInsets.symmetric(horizontal: 2),
