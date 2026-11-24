@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pointer_interceptor/pointer_interceptor.dart';
 import 'controllers/tshirt_controller.dart';
 import 'tshirt_viewer.dart';
 import 'widgets/bottom_nav_tab_bar.dart';
@@ -172,19 +173,23 @@ class MockupStudioHomePage extends StatelessWidget {
           ),
 
           // TOP BAR
-          const Positioned(
+          Positioned(
             top: 12,
             left: 12,
             right: 12,
-            child: ViewportTopBar(),
+            child: PointerInterceptor(
+              child: ViewportTopBar(),
+            ),
           ),
 
           // CAMERA CONTROLS
-          const Positioned(
+          Positioned(
             bottom: 12,
             left: 0,
             right: 0,
-            child: ViewportCameraBar(),
+            child: PointerInterceptor(
+              child: ViewportCameraBar(),
+            ),
           ),
 
           // DRAG MODE HINT

@@ -467,12 +467,6 @@
         }
       }
 
-      sendToFlutter({ type: 'LAYER_DESELECTED' });
-      engineState.selectedLayerId = null;
-      engineState.interactionMode = 'orbit';
-      if (controls) controls.enabled = true;
-
-      // Check hit on shirt mesh for drag
       const intersects = raycaster.intersectObject(shirtMesh, true);
       if (intersects.length > 0) {
         const hit = intersects[0];
@@ -481,8 +475,24 @@
           if (controls) controls.enabled = false;
           handleDragHit(hit);
           e.preventDefault();
+          return;
         }
       }
+
+      sendToFlutter({ type: 'LAYER_DESELECTED' });
+      engineState.selectedLayerId = null;
+      engineState.interactionMode = 'orbit';
+      if (controls) controls.enabled = true;
+      sendToFlutter({
+        type: 'SYNC_STATE',
+        shirtColor: engineState.shirtColor,
+        activeFabric: engineState.activeFabric,
+        fabricRoughness: engineState.fabricRoughness,
+        interactionMode: 'orbit',
+        autoRotate: engineState.autoRotate,
+        lighting: engineState.lighting,
+        layers: engineState.layers
+      });
     }
 
     function onWindowPointerMove(e) {

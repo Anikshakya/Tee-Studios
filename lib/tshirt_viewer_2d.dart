@@ -1,5 +1,4 @@
 import 'dart:math' as math;
-import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -8,6 +7,7 @@ import 'package:get/get.dart';
 import 'controllers/tshirt_controller.dart';
 import 'models/tshirt_layer.dart';
 import 'models/tshirt_mesh_projection.dart';
+import 'services/download_service.dart';
 import 'services/image_service.dart';
 
 class TshirtViewer2D extends StatefulWidget {
@@ -23,6 +23,7 @@ class _TshirtViewer2DState extends State<TshirtViewer2D>
 
   final _boundaryKey = GlobalKey();
   final _zoomController = TransformationController();
+  final DownloadService _downloadService = DownloadService();
   final ImageService _imageService = ImageService();
   late final TshirtController _controller;
   late final AnimationController _rotationController;
@@ -92,9 +93,22 @@ class _TshirtViewer2DState extends State<TshirtViewer2D>
                 child: Image.memory(bytes, fit: BoxFit.contain),
               ),
               const SizedBox(height: 8),
-              TextButton(
-                onPressed: () => Navigator.of(context).pop(),
-                child: const Text('Close'),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: const Text('Close'),
+                  ),
+                  const SizedBox(width: 8),
+                  FilledButton.icon(
+                    onPressed: () async {
+                      await _downloadService.downloadPng(bytes);
+                    },
+                    icon: const Icon(Icons.download),
+                    label: const Text('Download'),
+                  ),
+                ],
               ),
             ],
           ),

@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import '../models/tshirt_layer.dart';
+import '../services/download_service.dart';
 import '../services/image_service.dart';
 
 class LandmarkInfo {
@@ -22,6 +23,7 @@ class LandmarkInfo {
 class TshirtController extends GetxController {
   static TshirtController get to => Get.find<TshirtController>();
   final ImageService _imageService = ImageService();
+  final DownloadService _downloadService = DownloadService();
 
   // 3D Landmarks
   static const Map<String, LandmarkInfo> landmarks = {
@@ -502,6 +504,13 @@ class TshirtController extends GetxController {
     final type = data['type'] as String?;
     if (type == 'READY') {
       syncStateTo3D();
+    } else if (type == 'EXPORTED_PNG') {
+      final dataUrl = data['dataUrl'] as String?;
+      if (dataUrl == null) return;
+      final bytes = _imageService.dataUrlBytes(dataUrl);
+      if (bytes != null) {
+        _downloadService.downloadPng(bytes);
+      }
     } else if (type == 'LAYER_MOVED') {
       final layerId = data['layerId'] as String?;
       final pos = data['pos'] != null ? Vector3D.fromJson(data['pos'] as Map<String, dynamic>) : null;

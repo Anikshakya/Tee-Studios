@@ -89,22 +89,19 @@ class _TshirtViewerWebState extends State<TshirtViewerWeb> {
 
   @override
   Widget build(BuildContext context) {
-    return IgnorePointer(
-      ignoring: true,
-      child: HtmlElementView.fromTagName(
-        tagName: 'iframe',
-        onElementCreated: (Object element) {
-          _is3DReady = false;
-          final iframe = element as web.HTMLIFrameElement
-            ..src = 'tshirt_customizer.html'
-            ..style.border = 'none'
-            ..style.width = '100%'
-            ..style.height = '100%'
-            ..style.pointerEvents = 'none'
-            ..allow = 'fullscreen';
-          _iframe = iframe;
-        },
-      ),
+    return HtmlElementView.fromTagName(
+      tagName: 'iframe',
+      onElementCreated: (Object element) {
+        _is3DReady = false;
+        final iframe = element as web.HTMLIFrameElement
+          ..src = 'tshirt_customizer.html'
+          ..style.border = 'none'
+          ..style.width = '100%'
+          ..style.height = '100%'
+          ..style.pointerEvents = 'auto'
+          ..allow = 'fullscreen';
+        _iframe = iframe;
+      },
     );
   }
 }
