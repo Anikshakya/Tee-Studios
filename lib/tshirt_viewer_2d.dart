@@ -108,6 +108,22 @@ class _TshirtViewer2DState extends State<TshirtViewer2D>
                     icon: const Icon(Icons.download),
                     label: const Text('Download'),
                   ),
+                  const SizedBox(width: 8),
+                  FilledButton.icon(
+                    onPressed: () async {
+                      await _downloadService.savePngToDevice(bytes);
+                    },
+                    icon: const Icon(Icons.save_alt),
+                    label: const Text('Save to Local'),
+                  ),
+                  const SizedBox(width: 8),
+                  FilledButton.icon(
+                    onPressed: () async {
+                      await _downloadService.sharePng(bytes);
+                    },
+                    icon: const Icon(Icons.share),
+                    label: const Text('Share'),
+                  ),
                 ],
               ),
             ],

@@ -509,7 +509,11 @@ class TshirtController extends GetxController {
       if (dataUrl == null) return;
       final bytes = _imageService.dataUrlBytes(dataUrl);
       if (bytes != null) {
-        _downloadService.downloadPng(bytes);
+        if (kIsWeb) {
+          _downloadService.downloadPng(bytes);
+        } else {
+          _downloadService.savePngToDevice(bytes);
+        }
       }
     } else if (type == 'LAYER_MOVED') {
       final layerId = data['layerId'] as String?;
