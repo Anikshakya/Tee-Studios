@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:share_plus/share_plus.dart';
+
 import 'download_service.dart';
 
 DownloadService createDownloadService() => const IoDownloadService();
@@ -14,22 +16,17 @@ class IoDownloadService implements DownloadService {
     String fileName = 'tee-studios-mockup.png',
   }) async {
     try {
-      Directory directory;
-      if (Platform.isAndroid) {
-        directory = Directory('/storage/emulated/0/Download');
-      } else if (Platform.isIOS) {
-        directory = Directory('${Directory.current.path}/Documents');
-      } else {
-        directory = Directory.current;
-      }
-
-      if (!await directory.exists()) {
-        await directory.create(recursive: true);
-      }
-
       final safeName = fileName.endsWith('.png') ? fileName : '$fileName.png';
-      await File('${directory.path}/$safeName').writeAsBytes(bytes);
-      return true;
+      final tempDir = await Directory.systemTemp.createTemp('tee-studios');
+      final file = await File('${tempDir.path}/$safeName').writeAsBytes(bytes);
+      final result = await SharePlus.instance.share(
+        ShareParams(
+          files: [XFile(file.path, mimeType: 'image/png')],
+          text: 'Tee Studios mockup',
+        ),
+      );
+      return result.status == ShareResultStatus.success ||
+          result.status == ShareResultStatus.dismissed;
     } catch (_) {
       return false;
     }
