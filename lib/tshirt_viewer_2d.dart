@@ -150,7 +150,12 @@ class _TshirtViewer2DState extends State<TshirtViewer2D>
 
   void _selectLayer(TshirtLayer layer) {
     _controller.selectLayer(layer.id);
+    _controller.setInteractionMode('drag');
     _controller.setActiveTab(2);
+  }
+
+  void _clearLayerSelection() {
+    _controller.clearLayerSelection();
   }
 
   bool _isLayerOnView(TshirtLayer layer, String view) {
@@ -251,7 +256,8 @@ class _TshirtViewer2DState extends State<TshirtViewer2D>
                   scaleEnabled: true,
                   child: GestureDetector(
                     behavior: HitTestBehavior.opaque,
-                    onPanUpdate: interactionMode == 'drag' && activeLayer != null
+                    onTap: _clearLayerSelection,
+                    onPanUpdate: activeLayer != null
                         ? (details) => _moveLayerByDelta(
                             activeLayer,
                             details.delta,
@@ -342,7 +348,8 @@ class _TshirtViewer2DState extends State<TshirtViewer2D>
       child: GestureDetector(
         behavior: HitTestBehavior.translucent,
         onTap: () => _selectLayer(layer),
-        onPanUpdate: interactionMode == 'drag'
+        onPanStart: (_) => _selectLayer(layer),
+        onPanUpdate: selected
             ? (details) => _moveLayerByDelta(
                 layer,
                 details.delta,

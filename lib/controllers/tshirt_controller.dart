@@ -286,6 +286,13 @@ class TshirtController extends GetxController {
     selectedLayerId.value = id;
   }
 
+  void clearLayerSelection() {
+    if (selectedLayerId.value.isEmpty) return;
+    selectedLayerId.value = '';
+    interactionMode.value = 'orbit';
+    syncStateTo3D();
+  }
+
   /// Drag-and-Drop Reordering using Flutter's ReorderableListView
   void reorderLayers(int oldIndex, int newIndex) {
     if (oldIndex < newIndex) {
@@ -539,8 +546,12 @@ class TshirtController extends GetxController {
       final layerId = data['layerId'] as String?;
       if (layerId != null) {
         selectedLayerId.value = layerId;
+        interactionMode.value = 'drag';
         activeTab.value = 2; // Jump to Edit Layer
+        syncStateTo3D();
       }
+    } else if (type == 'LAYER_DESELECTED') {
+      clearLayerSelection();
     }
   }
 }

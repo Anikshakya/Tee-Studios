@@ -441,25 +441,36 @@
 
       raycaster.setFromCamera(mouse, camera);
 
-      // In orbit mode: allow normal 3D rotation by OrbitControls!
-      // Only select layer on quick tap without disabling rotation
-      if (engineState.interactionMode === 'orbit' && !e.shiftKey) {
-        if (controls) controls.enabled = true;
-        const decalMeshes = Object.values(layerRuntime).map(rt => rt.decalMesh).filter(m => m !== null);
-        if (decalMeshes.length > 0) {
-          const decalHits = raycaster.intersectObjects(decalMeshes, false);
-          if (decalHits.length > 0) {
-            const hitMesh = decalHits[0].object;
-            if (hitMesh.userData && hitMesh.userData.layerId) {
-              sendToFlutter({
-                type: 'LAYER_SELECTED',
-                layerId: hitMesh.userData.layerId
-              });
-            }
+      const decalMeshes = Object.values(layerRuntime).map(rt => rt.decalMesh).filter(m => m !== null);
+      const decalHits = decalMeshes.length > 0
+        ? raycaster.intersectObjects(decalMeshes, false)
+        : [];
+      if (decalHits.length > 0) {
+        const hitMesh = decalHits[0].object;
+        if (hitMesh.userData && hitMesh.userData.layerId) {
+          const layerId = hitMesh.userData.layerId;
+          engineState.selectedLayerId = layerId;
+          engineState.interactionMode = 'drag';
+          if (controls) controls.enabled = false;
+          sendToFlutter({
+            type: 'LAYER_SELECTED',
+            layerId: layerId
+          });
+
+          const intersects = raycaster.intersectObject(shirtMesh, true);
+          if (intersects.length > 0) {
+            isDragging = true;
+            handleDragHit(intersects[0]);
+            e.preventDefault();
           }
+          return;
         }
-        return; // OrbitControls handles the rotation smoothly!
       }
+
+      sendToFlutter({ type: 'LAYER_DESELECTED' });
+      engineState.selectedLayerId = null;
+      engineState.interactionMode = 'orbit';
+      if (controls) controls.enabled = true;
 
       // Check hit on shirt mesh for drag
       const intersects = raycaster.intersectObject(shirtMesh, true);
@@ -499,7 +510,7 @@
 
     function handleDragHit(hit) {
       if (!engineState.layers || engineState.layers.length === 0) return;
-      const activeLayer = engineState.layers.find(l => l.id === engineState.selectedLayerId) || engineState.layers[engineState.layers.length - 1];
+      const activeLayer = engineState.layers.find(l => l.id === engineState.selectedLayerId);
       if (!activeLayer) return;
 
       const worldPos = hit.point.clone();
