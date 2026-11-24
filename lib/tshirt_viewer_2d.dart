@@ -318,13 +318,15 @@ class _TshirtViewer2DState extends State<TshirtViewer2D>
     );
     final isText = layer.type == LayerType.text;
     final side = isText
-        ? (shirtRect.width * 0.58)
-              .clamp(54.0, shirtRect.width * 0.72)
-              .toDouble()
-        : (shirtRect.width * 0.28 * layer.scale)
+        ? Tshirt2DLayout.textLayerWidth(
+            layer,
+            shirtRect.width,
+            projection.bounds.width,
+          )
+        : ((0.24 * layer.scale / projection.bounds.width) * shirtRect.width)
               .clamp(36.0, shirtRect.width * 0.62)
               .toDouble();
-    final layerSize = Size(side, isText ? side * 0.52 : side);
+    final layerSize = Size(side, isText ? side * 0.38 : side);
 
     Widget artwork = isText
         ? CustomPaint(
@@ -376,6 +378,22 @@ class _TshirtViewer2DState extends State<TshirtViewer2D>
 }
 
 class Tshirt2DLayout {
+  static double textLayerWidth(
+    TshirtLayer layer,
+    double shirtWidth,
+    double projectedMeshWidth,
+  ) {
+    final fontRatio = layer.fontSize / 68;
+    final characterRatio = math
+        .pow(math.max(1, layer.text.trim().length) / 8, 0.35)
+        .toDouble();
+    final normalizedWidth = 0.24 * fontRatio * characterRatio;
+    return (projectedMeshWidth > 0
+            ? (normalizedWidth / projectedMeshWidth) * shirtWidth
+            : shirtWidth * normalizedWidth)
+        .toDouble();
+  }
+
   static Rect destinationRect(
     Size size,
     TshirtViewProjection projection, {
@@ -478,12 +496,11 @@ class Tshirt2DPainter extends CustomPainter {
         ..isAntiAlias = true,
     );
     if (shirtColor.isNotEmpty) {
-      final tint = _parseColor(shirtColor);
       canvas.drawVertices(
         projection.vertices,
         BlendMode.srcOver,
         Paint()
-          ..color = tint
+          ..color = _parseColor(shirtColor).withValues(alpha: 0.72)
           ..blendMode = BlendMode.srcATop
           ..isAntiAlias = true,
       );
@@ -658,7 +675,9 @@ class _LayerTextPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size _) {
     if (layer.text.isEmpty) return;
-    final fontSize = (layer.fontSize / 58) * size.width * 0.16;
+    final fontSize = size.height * (layer.fontSize * 2.2 / 1024);
+    final letterSpacing =
+        layer.textSpacing * size.width / 2048;
     final firstFamily = layer.fontFamily
         .split(',')
         .first
@@ -670,7 +689,7 @@ class _LayerTextPainter extends CustomPainter {
       fontFamily: firstFamily.isEmpty ? null : firstFamily,
       fontSize: fontSize,
       fontWeight: FontWeight.bold,
-      letterSpacing: layer.textSpacing,
+      letterSpacing: letterSpacing,
     );
 
     if (layer.textArc == 0 || layer.text.contains('\n')) {
@@ -703,7 +722,7 @@ class _LayerTextPainter extends CustomPainter {
       0,
       (total, painter) => total + painter.width,
     );
-    final spacing = layer.textSpacing;
+    final spacing = layer.textSpacing * size.width / 2048;
     final totalWidth = math.max(
       1.0,
       rawWidth + spacing * math.max(0, painters.length - 1),

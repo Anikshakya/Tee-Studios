@@ -114,16 +114,14 @@ class ApparelTab extends StatelessWidget {
                 final isSelected = activeHex.isNotEmpty && hex == activeHex;
                 final color = _parseHex(hex);
 
-                return InkWell(
+                return GestureDetector(
+                  key: ValueKey('shirt-swatch-$hex'),
+                  behavior: HitTestBehavior.opaque,
                   onTap: () {
                     // Toggle off if tapping already selected color
-                    if (isSelected) {
-                      controller.setShirtColor('');
-                    } else {
-                      controller.setShirtColor(item['hex']!);
-                    }
+                    final nextColor = isSelected ? '' : item['hex']!;
+                    controller.setShirtColor(nextColor);
                   },
-                  borderRadius: BorderRadius.circular(8),
                   child: AnimatedContainer(
                     duration: const Duration(milliseconds: 180),
                     decoration: BoxDecoration(

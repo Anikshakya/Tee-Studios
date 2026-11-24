@@ -207,13 +207,34 @@ class EditLayerTab extends StatelessWidget {
               ),
 
               const SizedBox(height: 14),
-              _buildSliderRow(
-                label: 'Font Size',
-                valText: '${layer.fontSize.round()}px',
-                value: layer.fontSize,
-                min: 16,
-                max: 140,
-                onChanged: (v) => controller.updateActiveFontSize(v),
+              TextFormField(
+                key: ValueKey('font_size_${layer.id}_${layer.fontSize.round()}'),
+                initialValue: layer.fontSize.round().toString(),
+                keyboardType: TextInputType.number,
+                style: const TextStyle(color: Colors.white, fontSize: 13),
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: const Color(0xFF1C202A),
+                  labelText: 'Custom Font Size',
+                  labelStyle: const TextStyle(color: Colors.white54),
+                  suffixText: 'px',
+                  suffixStyle: const TextStyle(color: Colors.white54),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide.none,
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: const BorderSide(color: Color(0xFF6366F1)),
+                  ),
+                  isDense: true,
+                ),
+                onChanged: (value) {
+                  final parsed = double.tryParse(value.trim());
+                  if (parsed != null && parsed > 0) {
+                    controller.updateActiveFontSize(parsed);
+                  }
+                },
               ),
 
               const SizedBox(height: 10),

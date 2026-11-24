@@ -630,7 +630,7 @@
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
 
-        const renderFontSize = (layer.fontSize || 58) * 2.2;
+        const renderFontSize = (layer.fontSize || 68) * 2.2;
         ctx.font = `bold ${renderFontSize}px ${layer.fontFamily || "'Bebas Neue', sans-serif"}`;
 
         if (layer.textArc && layer.textArc !== 0) {
@@ -663,9 +663,13 @@
         const pos = new THREE.Vector3(layer.pos.x, layer.pos.y, layer.pos.z);
         const norm = new THREE.Vector3(layer.norm.x, layer.norm.y, layer.norm.z);
 
-        const scaleFactor = 0.00032;
-        let decalW = Math.max(measuredW * scaleFactor * 1.4, 0.22);
-        let decalH = Math.max(measuredH * scaleFactor * 1.4, 0.12);
+        const fontRatio = (layer.fontSize || 68) / 68;
+        const characterRatio = Math.pow(
+          Math.max(1, (layer.text || '').trim().length) / 8,
+          0.35
+        );
+        const decalW = 0.24 * fontRatio * characterRatio;
+        const decalH = 0.24 * fontRatio * characterRatio * 0.38;
         const size = new THREE.Vector3(decalW, decalH, 0.05);
 
         const orientation = createDecalOrientation(pos, norm, layer.rotation || 0);
